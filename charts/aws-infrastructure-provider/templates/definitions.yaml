@@ -84,6 +84,17 @@ spec:
                                     type: string
                                 projectId:
                                     type: string
+                                overlay:
+                                    properties:
+                                        bucketName:
+                                            type: string
+                                        region:
+                                            default: us-west-2
+                                            type: string
+                                    required:
+                                        -   bucketName
+                                        -   region
+                                    type: object
                                 search:
                                     properties:
                                         engineVersion:

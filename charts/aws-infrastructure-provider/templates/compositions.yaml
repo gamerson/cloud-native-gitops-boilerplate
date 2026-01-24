@@ -664,7 +664,7 @@ spec:
                                         name: liferay-search-password
                                         namespace: {{ $namespace }}
                                     stringData:
-                                        password: {{ print (randAlphaNum 16) "!#%+7QZ_b" | shuffle }}
+                                        password: {{ print (randAlphaNum 16) "!#%+7QZ_b" | shuffle | quote }}
                                     type: Opaque
                             managementPolicies: {{ $managementPoliciesNoUpdate }}
                         ---

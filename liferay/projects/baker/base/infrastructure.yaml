@@ -1,0 +1,14 @@
+database:
+  blue:
+    region: us-east-2
+  green:
+    region: us-east-2
+overlay:
+  region: us-east-2
+search:
+  region: us-east-2
+storage:
+  blue:
+    region: us-east-2
+  green:
+    region: us-east-2

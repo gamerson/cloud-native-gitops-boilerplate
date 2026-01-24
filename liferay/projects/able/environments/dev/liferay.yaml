@@ -9,7 +9,7 @@ liferay-default:
     className: "nginx"
     enabled: true
     rules:
-    - host: able-prd.runray.xyz
+    - host: able-dev.runray.xyz
       http:
         paths:
         - backend:

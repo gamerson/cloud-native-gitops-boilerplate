@@ -1,0 +1,24 @@
+- add following to terraform/aws/gitops/platform/argocd.tf
+
+					ingress={
+						enabled=true
+						ingressClassName="nginx"
+						annotations={
+							"nginx.ingress.kubernetes.io/ssl-redirect"="true"
+							"nginx.ingress.kubernetes.io/backend-protocol"="HTTPS"
+						}
+						hosts=[
+							"argocd-server.runray.xyz"
+						]
+						tls=[
+							{
+								secretName = "runray-tls-secret"
+								hosts = [
+									"argocd-server.runray.xyz"
+								]
+							}
+						]
+					}
+
+
+

@@ -166,8 +166,8 @@ spec:
                             managementPolicies: {{ $managementPolicies }}
                         {{- end }}
 
-                        {{- $overlayBucketName := printf "%s-%s-overlay" $accountId $baseName -}}
                         {{- $overlaySpec := $xr.spec.overlay }}
+                        {{- $overlayBucketName := printf "%s-%s-overlay" $overlaySpec.bucketPrefix $baseName -}}
                         ---
                         apiVersion: s3.aws.m.upbound.io/v1beta1
                         kind: Bucket

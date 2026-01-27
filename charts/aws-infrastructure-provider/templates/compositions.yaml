@@ -167,7 +167,7 @@ spec:
                             managementPolicies: {{ $managementPolicies }}
                         {{- end }}
 
-                        {{- $overlayBucketName := printf "%s-%s-overlay" $deploymentName $baseName -}}
+                        {{- $overlayBucketName := printf "%s-overlay-%s" $deploymentName $baseName -}}
                         {{- $overlaySpec := $xr.spec.overlay }}
                         ---
                         apiVersion: s3.aws.m.upbound.io/v1beta1

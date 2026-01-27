@@ -1,10 +1,10 @@
 database:
   blue:
     instanceClass: db.t4g.medium
-    region: us-east-2a
+    region: us-east-2
   green:
     instanceClass: db.t4g.medium
-    region: us-east-2a
+    region: us-east-2
 overlay:
   region: us-east-2
 search:

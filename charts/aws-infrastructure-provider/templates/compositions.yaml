@@ -69,7 +69,7 @@ spec:
                                         projectId: {{ $projectId }}
                                         slot: {{ $slot }}
                                 engine: postgres
-                                engineVersion: {{ $spec.engineVersion }}
+                                engineVersion: {{ $spec.engineVersion | quote }}
                                 identifier: {{ $baseName }}-database-{{ $slot }}
                                 instanceClass: {{ $spec.instanceClass }}
                                 multiAz: false
@@ -588,7 +588,7 @@ spec:
                                     volumeType: gp3
                                 encryptAtRest:
                                     enabled: true
-                                engineVersion: {{ $searchSpec.engineVersion }}
+                                engineVersion: {{ $searchSpec.engineVersion | quote }}
                                 nodeToNodeEncryption:
                                     enabled: true
                                 region: {{ $searchSpec.region }}

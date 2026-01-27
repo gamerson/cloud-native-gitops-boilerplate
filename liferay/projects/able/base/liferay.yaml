@@ -70,11 +70,12 @@ liferay-default:
                         -   mountPath: /temp
                             name: liferay-persistent-volume
   customVolumes:
-    -   name: license-volume
-        secret:
-          secretName: liferay-license
-          items:
-            - key: "license.xml"
-              path: "license.xml"
+    x-liferay-copy-license:
+      -   name: license-volume
+          secret:
+            secretName: liferay-license
+            items:
+              - key: "license.xml"
+                path: "license.xml"
   image:
     tag: 2025.q1.20-lts-slim

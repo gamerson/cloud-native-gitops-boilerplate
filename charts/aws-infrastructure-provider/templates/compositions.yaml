@@ -186,7 +186,7 @@ spec:
                             forProvider:
                                 region: {{ $overlaySpec.region }}
                                 tags:
-                                    Name: {{ $overlaybucketName }}
+                                    Name: {{ $overlayBucketName }}
                             managementPolicies: {{ $managementPolicies }}
                         ---
                         apiVersion: s3.aws.m.upbound.io/v1beta1

@@ -1,2 +1,8 @@
 liferay-default:
+  overlay:
+    bucketName: 713881832303-able-dev-2225eb-overlay
+    copy:
+      - from: overlay_build_2/osgi/client-extensions
+        into: osgi/client-extensions
+    enabled: true
   replicaCount: 1

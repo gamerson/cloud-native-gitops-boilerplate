@@ -1,9 +1,9 @@
 database:
   blue:
-    engineVersion: db.t4g.medium
+    instanceClass: db.t4g.medium
     region: us-east-2
   green:
-    engineVersion: db.t4g.medium
+    instanceClass: db.t4g.medium
     region: us-east-2
 overlay:
   region: us-east-2

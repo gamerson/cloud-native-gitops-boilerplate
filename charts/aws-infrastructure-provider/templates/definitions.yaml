@@ -86,13 +86,10 @@ spec:
                                     type: string
                                 overlay:
                                     properties:
-                                        bucketPrefix:
-                                            type: string
                                         region:
                                             default: us-west-2
                                             type: string
                                     required:
-                                        -   bucketPrefix
                                         -   region
                                     type: object
                                 search:

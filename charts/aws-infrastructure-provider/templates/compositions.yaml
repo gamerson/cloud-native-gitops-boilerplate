@@ -18,6 +18,7 @@ spec:
                     template: |
                         {{`
                         {{- $accountId := `}}{{ .Values.aws.accountId | quote }}{{` -}}
+                        {{- $deploymentName := `}}{{ .Values.deploymentName | quote }}{{` -}}
                         {{- $liferayServiceAccountRoleName := `}}{{ .Values.liferayServiceAccountRoleName | quote }}{{` -}}
                         {{- $nodesSecurityGroupId := `}}{{ .Values.aws.nodesSecurityGroupId | quote }}{{` -}}
                         {{- $privateSubnetIds := `}}{{ .Values.aws.privateSubnetIds | quote }}{{` -}}
@@ -166,8 +167,8 @@ spec:
                             managementPolicies: {{ $managementPolicies }}
                         {{- end }}
 
+                        {{- $overlayBucketName := printf "%s-%s-overlay" $deploymentName $baseName -}}
                         {{- $overlaySpec := $xr.spec.overlay }}
-                        {{- $overlayBucketName := printf "%s-%s-overlay" $overlaySpec.bucketPrefix $baseName -}}
                         ---
                         apiVersion: s3.aws.m.upbound.io/v1beta1
                         kind: Bucket

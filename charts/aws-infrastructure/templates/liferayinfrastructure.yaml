@@ -36,7 +36,6 @@ spec:
     environmentId: {{ .Values.environmentId }}
     projectId: {{ .Values.projectId }}
     overlay:
-        bucketPrefix: {{ $overlay.bucketPrefix | default .Values.deploymentName | quote }}
         region: {{ $overlay.region | default "us-west-2" | quote }}
     search:
         engineVersion: {{ $search.engineVersion | default "OpenSearch_2.15" | quote }}

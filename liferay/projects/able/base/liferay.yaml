@@ -7,6 +7,7 @@ liferay-default:
                         -   -c
                         -   |
                                 mkdir -p /temp/liferay/deploy
+                                tree /mnt/liferay/
                                 cp -v /mnt/liferay/license-volume/license.xml /tmp/liferay/deploy
                     image: {{ printf "%s:%s" .image.repository (.image.tag | toString) }}
                     imagePullPolicy: {{ .image.pullPolicy }}

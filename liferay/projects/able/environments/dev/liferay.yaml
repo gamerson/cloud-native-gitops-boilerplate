@@ -2,7 +2,7 @@ liferay-default:
   overlay:
     bucketName: gma-lcd49553e-overlay-able-dev-2225eb
     copy:
-      - from: overlay_build_18/osgi/client-extensions
+      - from: overlay_build_18/osgi/client-extensions/*
         into: osgi/client-extensions
     enabled: true
   replicaCount: 1

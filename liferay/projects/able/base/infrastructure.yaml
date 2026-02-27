@@ -10,4 +10,4 @@ storage:
     region: "us-east-2"
   green:
     region: "us-east-2"
-enabled: true
+enabled: false

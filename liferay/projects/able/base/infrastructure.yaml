@@ -5,6 +5,11 @@ database:
     region: "us-east-2"
 overlay:
   region: "us-east-2"
-storage:
+search:
   region: "us-east-2"
-enabled: true
+storage:
+  blue:
+    region: "us-east-2"
+  green:
+    region: "us-east-2"
+enabled: false

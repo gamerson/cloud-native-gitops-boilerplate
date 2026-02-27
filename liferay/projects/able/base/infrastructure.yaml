@@ -6,8 +6,5 @@ database:
 overlay:
   region: "us-east-2"
 storage:
-  blue:
-    region: "us-east-2"
-  green:
-    region: "us-east-2"
-enabled: false
+  region: "us-east-2"
+enabled: true

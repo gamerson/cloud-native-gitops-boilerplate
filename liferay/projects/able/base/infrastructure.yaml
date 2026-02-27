@@ -4,4 +4,4 @@ overlay:
   region: "us-east-2"
 storage:
   region: "us-east-2"
-enabled: true
+enabled: false

@@ -1,0 +1,6 @@
+database:
+  region: "us-east-2"
+overlay:
+  region: "us-east-2"
+storage:
+  region: "us-east-2"

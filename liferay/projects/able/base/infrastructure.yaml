@@ -1,7 +1,13 @@
 database:
-  region: "us-east-2"
+  blue:
+    region: "us-east-2"
+  green:
+    region: "us-east-2"
 overlay:
   region: "us-east-2"
 storage:
-  region: "us-east-2"
-enabled: false
+  blue:
+    region: "us-east-2"
+  green:
+    region: "us-east-2"
+enabled: true

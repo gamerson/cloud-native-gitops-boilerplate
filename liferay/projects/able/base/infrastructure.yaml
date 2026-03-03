@@ -6,6 +6,9 @@ database:
 overlay:
   region: "ca-central-1"
 search:
+  opensearch:
+    instanceCount: 2
+    region: "ca-central-1"
   region: "ca-central-1"
 storage:
   blue:

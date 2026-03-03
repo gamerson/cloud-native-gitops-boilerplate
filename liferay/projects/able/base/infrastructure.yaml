@@ -10,6 +10,7 @@ search:
     instanceCount: 2
     region: "ca-central-1"
   region: "ca-central-1"
+  instanceCount: 2
 storage:
   blue:
     region: "ca-central-1"

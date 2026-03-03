@@ -12,4 +12,4 @@ storage:
     region: "ca-central-1"
   green:
     region: "ca-central-1"
-enabled: false
+enabled: true

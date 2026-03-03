@@ -1,15 +1,15 @@
 database:
   blue:
-    region: "us-east-2"
+    region: "ca-central-1"
   green:
-    region: "us-east-2"
+    region: "ca-central-1"
 overlay:
-  region: "us-east-2"
+  region: "ca-central-1"
 search:
-  region: "us-east-2"
+  region: "ca-central-1"
 storage:
   blue:
-    region: "us-east-2"
+    region: "ca-central-1"
   green:
-    region: "us-east-2"
+    region: "ca-central-1"
 enabled: false

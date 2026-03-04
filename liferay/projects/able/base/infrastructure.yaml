@@ -17,3 +17,11 @@ storage:
   green:
     region: "ca-central-1"
 enabled: true
+endpoints:
+  runray.xyz:
+    hostname: "runray.xyz"
+    port: 443
+    protocol: HTTPS
+    tls:
+      externalSecretNames:
+        - "liferay/certificates/runray.xyz"

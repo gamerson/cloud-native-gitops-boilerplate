@@ -5,3 +5,9 @@ liferay-default:
     forceHttpsRedirect: true
     hostnames:
       - "able-dev.runray.xyz"
+  overlay:
+    bucketName: gma-bstest1-overlay-able-dev-766749
+    copy:
+      - from: overlay_test_1/osgi/client-extensions/*
+        into: osgi/client-extensions
+    enabled: true

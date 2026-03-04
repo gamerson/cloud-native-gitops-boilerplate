@@ -19,7 +19,7 @@ storage:
 enabled: true
 endpoints:
   runray.xyz:
-    hostname: "runray.xyz"
+    hostname: "*.runray.xyz"
     port: 443
     protocol: HTTPS
     tls:

@@ -1,21 +1,6 @@
-database:
-  blue:
-    region: "ca-central-1"
-  green:
-    region: "ca-central-1"
-overlay:
-  region: "ca-central-1"
 search:
   opensearch:
     instanceCount: 2
-    region: "ca-central-1"
-  region: "ca-central-1"
-  instanceCount: 2
-storage:
-  blue:
-    region: "ca-central-1"
-  green:
-    region: "ca-central-1"
 enabled: true
 endpoints:
   runray.xyz:

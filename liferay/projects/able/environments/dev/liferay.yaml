@@ -6,7 +6,7 @@ liferay-default:
     hostnames:
       - "able-dev.runray.xyz"
   overlay:
-    bucketName: gma-bstest1-overlay-able-dev-766749
+    bucketName: gma-bs3-overlay-able-dev-fcfdd4
     copy:
       - from: "overlay_test_1/osgi/client-extensions/*"
         into: osgi/client-extensions

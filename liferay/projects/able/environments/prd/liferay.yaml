@@ -1,7 +1,0 @@
-liferay-default:
-  network:
-    enabled: true
-    endpointRef: runray.xyz
-    forceHttpsRedirect: true
-    hostnames:
-      - "able-prd.runray.xyz"

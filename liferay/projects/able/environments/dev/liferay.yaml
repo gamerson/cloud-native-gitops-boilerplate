@@ -12,4 +12,4 @@ liferay-default:
 #        into: osgi/client-extensions
 #    enabled: true
   portalProperties: |
-    company.security.update.password.required=true
+    company.security.update.password.required=false

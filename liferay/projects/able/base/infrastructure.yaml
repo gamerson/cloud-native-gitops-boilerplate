@@ -10,3 +10,6 @@ endpoints:
     tls:
       externalSecretNames:
         - "liferay/certificates/runray.xyz"
+license:
+  externalSecretName: "liferay/licenses/developer-clustered"
+  targetSecretName: "developer-clustered"

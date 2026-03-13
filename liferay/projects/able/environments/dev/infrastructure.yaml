@@ -5,4 +5,4 @@ backup:
             schedule: cron(0 * * * ? *)
             startWindow: 60
     enabled: true
-enabled: true
+enabled: false

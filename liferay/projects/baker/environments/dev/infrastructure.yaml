@@ -3,6 +3,6 @@ backup:
         -   retentionDays: 5
             ruleName: hourly-backups
             schedule: cron(0 * * * ? *)
-            startWindow: 5
+            startWindow: 60 
     enabled: true
 enabled: true

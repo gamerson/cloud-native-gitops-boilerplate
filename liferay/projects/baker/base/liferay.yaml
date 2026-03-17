@@ -3,6 +3,20 @@ liferay-default:
     x-license:
       - name: LIFERAY_DISABLE_TRIAL_LICENSE
         value: "true"
+  customInitContainers:
+     x-fix-permissions:
+        -   containerTemplate: |
+                -   command:
+                        -   bash
+                        -   -c
+                        -   |
+                        -   chown -R liferay:liferay /temp
+                image: {{ printf "%s:%s" .image.repository (.image.tag | toString) }}
+                imagePullPolicy: {{ .image.pullPolicy }}
+                name: liferay-fix-permissions
+                volumeMounts:
+                  -   mountPath: /temp
+                      name: liferay-persistent-volume
   customVolumeMounts:
     x-license:
       - mountPath: /etc/liferay/mount/files/deploy

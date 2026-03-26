@@ -1,0 +1,8 @@
+liferay-default:
+  replicaCount: 0
+  network:
+    enabled: true
+    endpointRef: runray.xyz
+    forceHttpsRedirect: true
+    hostnames:
+      - "dogfood-prd.runray.xyz"

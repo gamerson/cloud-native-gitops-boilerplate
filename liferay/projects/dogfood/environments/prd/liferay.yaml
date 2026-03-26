@@ -1,7 +1,7 @@
 liferay-default:
   replicaCount: 0
   network:
-    enabled: true
+    enabled: false
     endpointRef: runray.xyz
     forceHttpsRedirect: true
     hostnames:

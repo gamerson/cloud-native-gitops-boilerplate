@@ -1,6 +1,6 @@
-enabled: false
-eck-operator:
-  resources:
-    limits:
-      cpu: 1500m
-      memory: 2Gi
+enabled: true
+# eck-operator:
+#   resources:
+#     limits:
+#       cpu: 1500m
+#       memory: 2Gi

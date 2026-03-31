@@ -1,4 +1,3 @@
-enabled: true
 endpoints:
   runray.xyz:
     hostname: "*.runray.xyz"
@@ -10,6 +9,3 @@ endpoints:
 license:
   externalSecretName: "liferay/licenses/developer-clustered"
   targetSecretName: "developer-clustered"
-search:
-  elasticsearch:
-    enabled: true

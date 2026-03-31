@@ -1,15 +1,4 @@
 liferay-default:
-  securityContext:
-    fsGroup: 1000
-    runAsUser: 1000
-    runAsGroup: 1000
-    allowPrivilegeEscalation: false
-    capabilities:
-        drop:
-            -   ALL
-    readOnlyRootFilesystem: true
-    seccompProfile:
-        type: RuntimeDefault
   customEnv:
     x-license:
       - name: LIFERAY_DISABLE_TRIAL_LICENSE

@@ -5,7 +5,9 @@ endpoints:
     protocol: HTTPS
     tls:
       externalSecretNames:
-        - "liferay/certificates/runray.xyz"
+        - "runray.xyz"
+        #- "liferay/certificates/runray.xyz"
 license:
-  externalSecretName: "liferay/licenses/developer-clustered"
+  externalSecretName: "developer-clustered"
+  #externalSecretName: "liferay/licenses/developer-clustered"
   targetSecretName: "developer-clustered"

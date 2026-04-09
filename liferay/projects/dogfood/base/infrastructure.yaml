@@ -11,3 +11,8 @@ license:
   externalSecretName: "developer-clustered"
   #externalSecretName: "liferay/licenses/developer-clustered"
   targetSecretName: "developer-clustered"
+gateway:
+  clientTrafficPolicySpec:
+    clientIPDetection:
+      xForwardedFor:
+        numTrustedHops: 1

@@ -6,6 +6,12 @@ liferay-default:
     forceHttpsRedirect: true
     hostnames:
       - "dogfood-prd.runray.xyz"
+  overlay:
+    enabled: true
+    bucketName: dogfood-prd-cfd3db-overlay
+    copy:
+    - from: "overlay-build-1/osgi/*"
+      to: "osgi/"
   configmap:
     data:
       com.liferay.portal.search.elasticsearch7.configuration.ElasticsearchConfiguration.config: |

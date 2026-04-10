@@ -1,4 +1,6 @@
 liferay-default:
+  annotations:
+    gke-gcsfuse/volumes: "true"
   replicaCount: 1
   network:
     enabled: true

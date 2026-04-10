@@ -11,7 +11,7 @@ liferay-default:
     bucketName: dogfood-prd-cfd3db-overlay
     copy:
     - from: "overlay-build-1/osgi/*"
-      to: "osgi/"
+      into: "osgi/"
   configmap:
     data:
       com.liferay.portal.search.elasticsearch7.configuration.ElasticsearchConfiguration.config: |

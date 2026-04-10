@@ -1,4 +1,6 @@
 liferay-default:
+  podAnnotations:
+    gke-gcsfuse/volumes: "true"
   annotations:
     gke-gcsfuse/volumes: "true"
   replicaCount: 1

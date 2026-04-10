@@ -1,9 +1,5 @@
 liferay-default:
-  podAnnotations:
-    gke-gcsfuse/volumes: "true"
-  annotations:
-    gke-gcsfuse/volumes: "true"
-  replicaCount: 0
+  replicaCount: 1
   network:
     enabled: true
     endpointRef: runray.xyz

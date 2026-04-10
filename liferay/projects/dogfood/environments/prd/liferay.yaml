@@ -3,7 +3,7 @@ liferay-default:
     gke-gcsfuse/volumes: "true"
   annotations:
     gke-gcsfuse/volumes: "true"
-  replicaCount: 1
+  replicaCount: 0
   network:
     enabled: true
     endpointRef: runray.xyz

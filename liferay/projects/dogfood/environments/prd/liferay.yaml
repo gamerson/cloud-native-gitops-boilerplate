@@ -6,25 +6,25 @@ liferay-default:
     forceHttpsRedirect: true
     hostnames:
       - "dogfood-prd.runray.xyz"
-  overlay:
-    enabled: true
-    bucketName: dogfood-prd-cfd3db-overlay
-    copy:
-    - from: "overlay-build-1/osgi/*"
-      into: "osgi/"
-  configmap:
-    data:
-      com.liferay.portal.search.elasticsearch7.configuration.ElasticsearchConfiguration.config: |
-        authenticationEnabled=B"false"
-        clusterName="liferay_cluster"
-        httpSSLEnabled=B"false"
-        indexNamePrefix="liferay-"
-        networkHostAddresses=["$[env:ELASTICSEARCH_URL]"]
-        operationMode="REMOTE"
-        password="search"
-        username="search"
-  customVolumeMounts:
-    x-elasticsearch:
-      - mountPath: /opt/liferay/osgi/configs/com.liferay.portal.search.elasticsearch7.configuration.ElasticsearchConfiguration.config
-        name: liferay-configmap
-        subPath: com.liferay.portal.search.elasticsearch7.configuration.ElasticsearchConfiguration.config
+  # overlay:
+  #   enabled: true
+  #   bucketName: dogfood-prd-cfd3db-overlay
+  #   copy:
+  #   - from: "overlay-build-1/osgi/*"
+  #     into: "osgi/"
+  # configmap:
+  #   data:
+  #     com.liferay.portal.search.elasticsearch7.configuration.ElasticsearchConfiguration.config: |
+  #       authenticationEnabled=B"false"
+  #       clusterName="liferay_cluster"
+  #       httpSSLEnabled=B"false"
+  #       indexNamePrefix="liferay-"
+  #       networkHostAddresses=["$[env:ELASTICSEARCH_URL]"]
+  #       operationMode="REMOTE"
+  #       password="search"
+  #       username="search"
+  # customVolumeMounts:
+  #   x-elasticsearch:
+  #     - mountPath: /opt/liferay/osgi/configs/com.liferay.portal.search.elasticsearch7.configuration.ElasticsearchConfiguration.config
+  #       name: liferay-configmap
+  #       subPath: com.liferay.portal.search.elasticsearch7.configuration.ElasticsearchConfiguration.config

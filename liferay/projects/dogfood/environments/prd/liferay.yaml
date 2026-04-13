@@ -6,6 +6,14 @@ liferay-default:
     forceHttpsRedirect: true
     hostnames:
       - "dogfood-prd.runray.xyz"
+  overlay:
+    enabled: true
+    bucketName: gma-20260413-overlay-dogfood-prd-859902
+    copy:
+    - from: "overlay-build-1/osgi/*"
+      into: "osgi/"
+  configmap:
+
   # overlay:
   #   enabled: true
   #   bucketName: dogfood-prd-cfd3db-overlay

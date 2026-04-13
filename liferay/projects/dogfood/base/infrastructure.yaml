@@ -11,8 +11,8 @@ license:
   #externalSecretName: "developer-clustered"
   externalSecretName: "liferay/licenses/developer-clustered"
   targetSecretName: "developer-clustered"
-overlay:
-    enabled: true
+#overlay:
+    #enabled: true
     #region: "us-south1"
 # gateway:
 #   clientTrafficPolicySpec:

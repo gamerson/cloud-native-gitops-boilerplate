@@ -12,8 +12,6 @@ liferay-default:
     copy:
     - from: "overlay-build-1/osgi/*"
       into: "osgi/"
-  configmap:
-
   # overlay:
   #   enabled: true
   #   bucketName: dogfood-prd-cfd3db-overlay

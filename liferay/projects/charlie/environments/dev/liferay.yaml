@@ -1,0 +1,9 @@
+liferay-default:
+  replicaCount: 1
+  network:
+    enabled: true
+    endpointRef: runray.xyz
+    forceHttpsRedirect: true
+    hostnames:
+      - "charlie-dev.runray.xyz"
+

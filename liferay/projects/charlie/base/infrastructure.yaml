@@ -1,0 +1,16 @@
+endpoints:
+  runray.xyz:
+    hostname: "*.runray.xyz"
+    port: 443
+    protocol: HTTPS
+    tls:
+      externalSecretNames:
+        - "runrayxyz"
+        #- "liferay/certificates/runray.xyz"
+license:
+  externalSecretName: "developer-clustered"
+  #externalSecretName: "liferay/licenses/developer-clustered"
+  targetSecretName: "developer-clustered"
+overlay:
+    enabled: true
+    region: "us-south1"

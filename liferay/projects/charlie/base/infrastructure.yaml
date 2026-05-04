@@ -15,5 +15,6 @@ license:
 overlay:
     enabled: true
     region: "us-south1"
-elasticsearch:                                                                                                                                                            
+search:
+  elasticsearch:                                                                                                                                                            
     version: 8.17.4

@@ -15,4 +15,5 @@ license:
 overlay:
     enabled: true
     region: "us-south1"
-secretStoreName: "gma-05012026-secret-store"
+elasticsearch:                                                                                                                                                            
+    version: 8.17.4

@@ -12,8 +12,10 @@ license:
   externalSecretName: "liferay/licenses/developer-clustered"
   targetSecretName: "developer-clustered"
 overlay:
+  # enable below on GCP
     #enabled: true
     region: "ca-central-1"
-search:
-  elasticsearch:                                                                                                                                                            
-    version: 8.17.4
+# enable below on GCP
+#search:
+  #elasticsearch:
+    #version: 8.17.4

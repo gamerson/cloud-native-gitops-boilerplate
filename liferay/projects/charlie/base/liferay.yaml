@@ -16,4 +16,5 @@ liferay-default:
               path: license.xml
           secretName: developer-clustered
   image:
-    tag: 2026.q1.7-lts
+    #tag: 2026.q1.7-lts
+    tag: 2025.q1.24-lts

@@ -1,5 +1,5 @@
 backup:
-  enabled: true
+  enabled: false
   retentionDays: 5
   schedule: "0 5 * * *"
-enabled: true
+enabled: false

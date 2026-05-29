@@ -1,9 +1,13 @@
 liferay-default:
-  replicaCount: 0
+  replicaCount: 1
   network:
     enabled: true
     endpointRef: runray.xyz
     forceHttpsRedirect: true
     hostnames:
       - "charlie-dev.runray.xyz"
-
+  overlay:
+    copy:
+      - from: "test-upload-1/osgi/client-extensions/*"
+        info: "osgi/client-extensions/"
+    enabled: true

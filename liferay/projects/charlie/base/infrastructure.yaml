@@ -13,8 +13,6 @@ license:
   targetSecretName: "developer-clustered"
 overlay:
     region: "us-south1"
-    bucket:
-      enabled: false
     #region: "ca-central-1"
 
 # enable below on GCP

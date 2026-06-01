@@ -5,5 +5,5 @@ liferay-default:
     endpointRef: runray.xyz
     forceHttpsRedirect: true
     hostnames:
-      - "charlie-prd.runray.xyz"
+      - "able-prd.runray.xyz"
 

@@ -1,0 +1,18 @@
+endpoints:
+  runray.xyz:
+    hostname: "*.runray.xyz"
+    port: 443
+    protocol: HTTPS
+    tls:
+      externalSecretNames:
+        - "runrayxyz"
+license:
+  externalSecretName: "developer-clustered"
+  targetSecretName: "developer-clustered"
+overlay:
+    region: "us-south1"
+
+# enable below on GCP
+search:
+  elasticsearch:
+    version: 8.17.4

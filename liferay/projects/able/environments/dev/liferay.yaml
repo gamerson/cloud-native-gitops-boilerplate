@@ -11,11 +11,3 @@ liferay-default:
       - from: "overlay-test-1/osgi/client-extensions/*"
         into: "osgi/client-extensions/"
     enabled: true
-  # customEnv:
-  #   x-liferay-valid-hosts:
-  #     - name: LIFERAY_VIRTUAL_PERIOD_HOSTS_PERIOD_VALID_PERIOD_HOSTS
-  #       value: "*"
-  #     - name: LIFERAY_COMPANY_PERIOD_DEFAULT_PERIOD_VIRTUAL_PERIOD_HOST_PERIOD_NAME
-  #       value: "liferay-able-dev.runray.xyz"
-  #     - name: LIFERAY_COMPANY_PERIOD_DEFAULT_PERIOD_WEB_PERIOD_ID
-  #       value: "liferay-able-dev.runray.xyz"

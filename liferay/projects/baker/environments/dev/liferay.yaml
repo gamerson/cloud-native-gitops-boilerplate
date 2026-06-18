@@ -8,7 +8,7 @@ liferay-default:
       - "liferay-baker-dev.runray.xyz"
   overlay:
     copy:
-      - from: "test-upload-2/osgi/client-extensions/*"
+      - from: "overlay-test-2/osgi/client-extensions/*"
         into: "osgi/client-extensions/"
     enabled: true
   # customEnv:

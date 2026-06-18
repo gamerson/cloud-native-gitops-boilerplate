@@ -14,4 +14,4 @@ liferay-default:
   customEnv:
     x-liferay-valid-hosts:
       - name: LIFERAY_VIRTUAL_PERIOD_HOSTS_PERIOD_VALID_PERIOD_HOSTS
-        value: "localhost, ${env.POD_ID}, liferay-able-dev.runray.xyz"
+        value: "*"

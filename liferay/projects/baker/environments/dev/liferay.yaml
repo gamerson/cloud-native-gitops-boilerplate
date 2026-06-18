@@ -1,5 +1,5 @@
 liferay-default:
-  replicaCount: 0
+  replicaCount: 1
   network:
     enabled: true
     endpointRef: runray.xyz

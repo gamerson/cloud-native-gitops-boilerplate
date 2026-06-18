@@ -11,3 +11,7 @@ liferay-default:
       - from: "test-upload-1/osgi/client-extensions/*"
         into: "osgi/client-extensions/"
     enabled: true
+  customEnv:
+    x-liferay-valid-hosts:
+      - name: LIFERAY_VIRTUAL_PERIOD_HOSTS_PERIOD_VALID_PERIOD_HOSTS
+        value: "localhost,${env.POD_ID},liferay-able-dev.runray.xyz"

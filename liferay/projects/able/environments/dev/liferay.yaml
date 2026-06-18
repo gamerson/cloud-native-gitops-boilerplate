@@ -1,5 +1,5 @@
 liferay-default:
-  replicaCount: 1
+  replicaCount: 0
   network:
     enabled: true
     endpointRef: runray.xyz
@@ -15,3 +15,7 @@ liferay-default:
     x-liferay-valid-hosts:
       - name: LIFERAY_VIRTUAL_PERIOD_HOSTS_PERIOD_VALID_PERIOD_HOSTS
         value: "*"
+      - name: LIFERAY_COMPANY_PERIOD_DEFAULT_PERIOD_VIRTUAL_PERIOD_HOST_PERIOD_NAME
+        value: "liferay-able-dev.runray.xyz"
+      - name: LIFERAY_COMPANY_PERIOD_DEFAULT_PERIOD_WEB_PERIOD_ID
+        value: "liferay-able-dev.runray.xyz"

@@ -5,16 +5,17 @@ endpoints:
     protocol: HTTPS
     tls:
       externalSecretNames:
-        - "liferay/certificates/runray.xyz"
+        #- "liferay/certificates/runray.xyz"
+        - "runrayxyz"
 license:
-  #externalSecretName: "developer-clustered"
-  externalSecretName: "liferay/licenses/developer-clustered"
+  externalSecretName: "developer-clustered"
+  #externalSecretName: "liferay/licenses/developer-clustered"
   targetSecretName: "developer-clustered"
 overlay:
-    #region: "us-south1"
-    region: "ca-central-1"
+    region: "us-south1"
+    #region: "ca-central-1"
 
 # enable below on GCP
-# search:
-#   elasticsearch:
-#     version: 8.17.4
+search:
+  elasticsearch:
+    version: 8.17.4

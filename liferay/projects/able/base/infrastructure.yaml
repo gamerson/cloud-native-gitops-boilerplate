@@ -11,9 +11,8 @@ license:
   externalSecretName: "developer-clustered"
   #externalSecretName: "liferay/licenses/developer-clustered"
   targetSecretName: "developer-clustered"
-overlay:
-    region: "us-south1"
-    #region: "ca-central-1"
+overlayAccess:
+  enabled: true
 
 # enable below on GCP
 search:

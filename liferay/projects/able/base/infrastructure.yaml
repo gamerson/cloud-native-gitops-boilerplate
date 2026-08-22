@@ -7,14 +7,14 @@ endpoints:
       externalSecretNames:
         #- "liferay/certificates/runray.xyz"
         - "runrayxyz"
-license:
-  externalSecretName: "developer-clustered"
+#license:
+#  externalSecretName: "developer-clustered"
   #externalSecretName: "liferay/licenses/developer-clustered"
-  targetSecretName: "developer-clustered"
-overlayAccess:
-  enabled: true
+#  targetSecretName: "developer-clustered"
+# overlayAccess:
+#   enabled: true
 
 # enable below on GCP
-search:
-  elasticsearch:
-    version: 8.17.4
+#search:
+#  elasticsearch:
+#    version: 8.17.4

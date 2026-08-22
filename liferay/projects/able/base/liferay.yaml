@@ -3,6 +3,12 @@ liferay-default:
     x-license:
       - name: LIFERAY_DISABLE_TRIAL_LICENSE
         value: "true"
+    # Temporary: the S3 store cannot authenticate on 2026.q3.0 because the AWS
+    # SDK finds no HTTP implementation for the web identity exchange. Keep the
+    # document library on the persistent volume until that is fixed.
+    x-storage:
+      - name: LIFERAY_DL_PERIOD_STORE_PERIOD_IMPL
+        value: com.liferay.portal.store.file.system.FileSystemStore
   # customVolumeMounts:
   #   x-license:
   #     - mountPath: /etc/liferay/mount/files/deploy

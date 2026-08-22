@@ -18,3 +18,5 @@ liferay-default:
   image:
     tag: 2026.q3.0
     #tag: 2025.q1.24-lts
+  licensing:
+    enabled: true

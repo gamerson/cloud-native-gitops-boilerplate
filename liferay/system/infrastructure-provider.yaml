@@ -1,1 +1,5 @@
 enabled: true
+liferay-dxp-operator:
+  image:
+    repository: us-central1-docker.pkg.dev/external-assets-nonprd/liferay-cloud-native/release-lcd-53126/8f57c51/liferay-dxp-operator
+    tag: "0.1.0"

@@ -14,6 +14,12 @@ endpoints:
 # overlayAccess:
 #   enabled: true
 
+# DXP 2026.q3.0 requires OpenSearch 2.19 or later. The chart still provisions
+# 2.15, which the search engine rejects at startup.
+search:
+  opensearch:
+    engineVersion: OpenSearch_2.19
+
 # enable below on GCP
 #search:
 #  elasticsearch:

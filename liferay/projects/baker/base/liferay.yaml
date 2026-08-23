@@ -1,0 +1,55 @@
+liferay-default:
+  customEnv:
+    x-license:
+      - name: LIFERAY_DISABLE_TRIAL_LICENSE
+        value: "true"
+    # Temporary: replaces the chart's list wholesale so the document library
+    # stays on the persistent volume. The S3 store cannot authenticate on
+    # 2026.q3.0 because the AWS SDK finds no HTTP implementation for the web
+    # identity exchange. A second entry for the same name does not work, since
+    # env is merged by name on apply. Revert once the store is repaired, and
+    # re-sync this list if the chart's own changes.
+    x-liferay-aws:
+      - name: LIFERAY_DISABLE_TRIAL_LICENSE
+        value: "true"
+      - name: LIFERAY_DL_PERIOD_STORE_PERIOD_IMPL
+        value: com.liferay.portal.store.file.system.FileSystemStore
+      - name: LIFERAY_JDBC_PERIOD_DEFAULT_PERIOD_DRIVER_UPPERCASEC_LASS_UPPERCASEN_AME
+        value: org.postgresql.Driver
+      - name: LIFERAY_JDBC_PERIOD_DEFAULT_PERIOD_PASSWORD
+        value: ${env.DATABASE_PASSWORD}
+      - name: LIFERAY_JDBC_PERIOD_DEFAULT_PERIOD_URL
+        value: jdbc:postgresql://${env.DATABASE_ENDPOINT}:${env.DATABASE_PORT}/lportal?useUnicode=true&characterEncoding=UTF-8&useFastDateParsing=false
+      - name: LIFERAY_JDBC_PERIOD_DEFAULT_PERIOD_USERNAME
+        value: ${env.DATABASE_USERNAME}
+      - name: LIFERAY_NETWORK_HOST_ADDRESSES
+        value: $(SEARCH_URL)
+      - name: LIFERAY_OPENSEARCH_PASSWORD
+        value: $(SEARCH_PASSWORD)
+      - name: LIFERAY_WEB_PERIOD_SERVER_PERIOD_FORWARDED_PERIOD_PORT_PERIOD_ENABLED
+        value: "true"
+      - name: LIFERAY_WEB_PERIOD_SERVER_PERIOD_FORWARDED_PERIOD_PROTOCOL_PERIOD_ENABLED
+        value: "true"
+  # customVolumeMounts:
+  #   x-license:
+  #     - mountPath: /etc/liferay/mount/files/deploy
+  #       name: developer-clustered
+  # customVolumes:
+  #   x-license:
+  #     - name: developer-clustered
+  #       secret:
+  #         items:
+  #           - key: license.xml
+  #             path: license.xml
+  #         secretName: developer-clustered
+  image:
+    tag: 2026.q3.0
+    #tag: 2025.q1.24-lts
+  licensing:
+    enabled: true
+    # Baker demonstrates activation without reaching the provisioning server.
+    # The operator publishes a request into the <name>-identity secret under
+    # "offline-request"; the bundle answering it goes on the marketplace volume
+    # and is named here once it exists.
+    offline: true
+    #offlineActivationBundle: activation-bundle.zip

@@ -1,0 +1,15 @@
+liferay-default:
+  replicaCount: 1
+  licensing:
+    # UAT demonstrates activation without reaching the provisioning server. The
+    # operator publishes a request into the <name>-identity secret under
+    # "offline-request"; the bundle answering it goes on the marketplace volume
+    # and is named here once it exists.
+    offline: true
+    #offlineActivationBundle: activation-bundle.zip
+  network:
+    enabled: true
+    endpointRef: runray.xyz
+    forceHttpsRedirect: true
+    hostnames:
+      - "liferay-able-uat.runray.xyz"

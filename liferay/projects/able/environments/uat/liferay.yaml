@@ -1,5 +1,5 @@
 liferay-default:
-  replicaCount: 3
+  replicaCount: 1
   licensing:
     # UAT demonstrates activation without reaching the provisioning server. The
     # operator publishes a request into the <name>-identity secret under

@@ -4,7 +4,7 @@ liferay-dxp-operator:
   # than ten. The default is 10m.
   heartbeatInterval: 1m
   image:
-    repository: us-central1-docker.pkg.dev/external-assets-nonprd/liferay-cloud-native/release-lcd-53126/b1c1b7d/liferay-dxp-operator
+    repository: us-central1-docker.pkg.dev/external-assets-nonprd/liferay-cloud-native/release-lcd-53126/a2e031b/liferay-dxp-operator
     tag: "0.1.0"
   provisioning:
     baseURL: https://api.one-uat.liferay.com

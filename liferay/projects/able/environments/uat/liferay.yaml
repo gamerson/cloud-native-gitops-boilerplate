@@ -1,7 +1,7 @@
 liferay-default:
   # Held down while the environment is reset for the next demo run. Restore to
   # 1 to bring uat back up.
-  replicaCount: 1
+  replicaCount: )
   licensing:
     # UAT demonstrates activation without reaching the provisioning server. The
     # operator publishes a request into the <name>-identity secret under

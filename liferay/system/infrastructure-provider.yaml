@@ -1,5 +1,7 @@
 enabled: true
 liferay-dxp-operator:
   image:
-    repository: us-central1-docker.pkg.dev/external-assets-nonprd/liferay-cloud-native/release-lcd-53126/9021c24/liferay-dxp-operator
+    repository: us-central1-docker.pkg.dev/external-assets-nonprd/liferay-cloud-native/release-lcd-53126/b083e52/liferay-dxp-operator
     tag: "0.1.0"
+  provisioning:
+    baseURL: https://api.one-uat.liferay.com

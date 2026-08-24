@@ -1,5 +1,8 @@
 enabled: true
 liferay-dxp-operator:
+  # Shortened for the demo, so a change is picked up in about a minute rather
+  # than ten. The default is 10m.
+  heartbeatInterval: 1m
   image:
     repository: us-central1-docker.pkg.dev/external-assets-nonprd/liferay-cloud-native/release-lcd-53126/b083e52/liferay-dxp-operator
     tag: "0.1.0"

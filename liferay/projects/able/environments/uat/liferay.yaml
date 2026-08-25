@@ -1,12 +1,5 @@
 liferay-default:
-  # Held down while the environment is reset for the next demo run. Restore to
-  # 1 to bring uat back up.
-  replicaCount: 0
   licensing:
-    # UAT demonstrates activation without reaching the provisioning server. The
-    # operator publishes a request into the <name>-identity secret under
-    # "offline-request"; the bundle answering it goes on the marketplace volume
-    # and is named here once it exists.
     offline: true
     offlineActivationBundle: uat-offline-activation-bundle.zip
   network:
@@ -15,3 +8,4 @@ liferay-default:
     forceHttpsRedirect: true
     hostnames:
       - "liferay-able-uat.runray.xyz"
+  replicaCount: 1

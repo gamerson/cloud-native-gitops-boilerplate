@@ -5,4 +5,4 @@ liferay-default:
     forceHttpsRedirect: true
     hostnames:
       - "liferay-able-uat.runray.xyz"
-  replicaCount: 1
+  replicaCount: 0

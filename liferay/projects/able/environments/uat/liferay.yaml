@@ -1,4 +1,6 @@
 liferay-default:
+  licensing:
+    offline: true
   network:
     enabled: true
     endpointRef: runray.xyz

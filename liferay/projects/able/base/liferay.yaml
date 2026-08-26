@@ -50,6 +50,8 @@ liferay-default:
   image:
     tag: 2026.q3.0
     #tag: 2025.q1.24-lts
+  license:
+    syncInterval: 5
   licensing:
     enabled: true
     onlineActivationWorkflow:
@@ -57,4 +59,4 @@ liferay-default:
   marketplace:
     # Shortened for the demo. Ten minutes is a long wait to show an add-on
     # arriving; the default is 600.
-    syncInterval: 30
+    syncInterval: 5

@@ -47,8 +47,6 @@ liferay-default:
     #tag: 2025.q1.24-lts
   licensing:
     enabled: true
-    onlineActivationWorkflow:
-      enabled: true
   marketplace:
     # Shortened for the demo. Ten minutes is a long wait to show an add-on
     # arriving; the default is 600.

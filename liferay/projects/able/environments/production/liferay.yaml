@@ -1,7 +1,4 @@
 liferay-default:
-  licensing:
-    onlineActivationWorkflow:
-      enabled: true
   network:
     enabled: true
     endpointRef: runray.xyz

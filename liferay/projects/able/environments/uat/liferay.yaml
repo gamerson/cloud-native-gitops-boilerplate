@@ -1,7 +1,4 @@
 liferay-default:
-  licensing:
-    offline: true
-    offlineActivationBundle: uat-offline-activation-bundle.zip
   network:
     enabled: true
     endpointRef: runray.xyz

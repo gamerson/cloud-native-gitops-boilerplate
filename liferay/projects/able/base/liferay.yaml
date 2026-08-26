@@ -30,6 +30,11 @@ liferay-default:
         value: "true"
       - name: LIFERAY_WEB_PERIOD_SERVER_PERIOD_FORWARDED_PERIOD_PROTOCOL_PERIOD_ENABLED
         value: "true"
+  customVolumeMounts:
+    x-marketplace:
+      - mountPath: /opt/liferay/osgi/marketplace
+        name: liferay-persistent-volume
+        subPath: osgi/marketplace
   # customVolumeMounts:
   #   x-license:
   #     - mountPath: /etc/liferay/mount/files/deploy

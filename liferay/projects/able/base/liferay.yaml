@@ -26,7 +26,7 @@ liferay-default:
                   -   mountPath: /temp
                       name: liferay-persistent-volume
   customEnv:
-    x-license:
+    #x-license:
     #  - name: LIFERAY_DISABLE_TRIAL_LICENSE
     #    value: "true"
     # Temporary: replaces the chart's list wholesale so the document library
@@ -55,6 +55,9 @@ liferay-default:
       - name: LIFERAY_WEB_PERIOD_SERVER_PERIOD_FORWARDED_PERIOD_PORT_PERIOD_ENABLED
         value: "true"
       - name: LIFERAY_WEB_PERIOD_SERVER_PERIOD_FORWARDED_PERIOD_PROTOCOL_PERIOD_ENABLED
+        value: "true"
+    x-cmp-enable:
+      - name: LIFERAY_FEATURE_PERIOD_FLAG_PERIOD__UPPERCASEL__UPPERCASEP__UPPERCASED__MINUS__NUMBER5__NUMBER8__NUMBER6__NUMBER7__NUMBER7_
         value: "true"
   customVolumeMounts:
     x-marketplace:

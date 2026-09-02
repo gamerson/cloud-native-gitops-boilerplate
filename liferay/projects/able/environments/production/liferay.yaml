@@ -1,8 +1,0 @@
-liferay-default:
-  network:
-    enabled: true
-    endpointRef: runray.xyz
-    forceHttpsRedirect: true
-    hostnames:
-      - "liferay-able-production.runray.xyz"
-  replicaCount: 0

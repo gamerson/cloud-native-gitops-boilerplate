@@ -11,3 +11,8 @@ liferay-default:
   #       into: "osgi/client-extensions/"
   #   enabled: true
   replicaCount: 1
+  # A first boot against an empty database runs every verify process before
+  # Liferay answers a request, which overran the chart's 15 minute budget
+  # (60s + 90 x 10s) and got the container killed partway through.
+  startupProbe:
+    failureThreshold: 240

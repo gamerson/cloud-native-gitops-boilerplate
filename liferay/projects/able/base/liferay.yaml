@@ -64,28 +64,25 @@ liferay-default:
       - mountPath: /opt/liferay/osgi/marketplace
         name: liferay-persistent-volume
         subPath: osgi/marketplace
-  # customVolumeMounts:
-  #   x-license:
-  #     - mountPath: /etc/liferay/mount/files/deploy
-  #       name: developer-clustered
-  # customVolumes:
-  #   x-license:
-  #     - name: developer-clustered
-  #       secret:
-  #         items:
-  #           - key: license.xml
-  #             path: license.xml
-  #         secretName: developer-clustered
+    x-license:
+      - mountPath: /etc/liferay/mount/files/deploy
+        name: developer-clustered
+  customVolumes:
+    x-license:
+      - name: developer-clustered
+        secret:
+          items:
+            - key: license.xml
+              path: license.xml
+          secretName: developer-clustered
   image:
     tag: 2026.q3.0
     #tag: 2025.q1.24-lts
-  license:
-    syncInterval: 5
-  licensing:
-    enabled: true
-    onlineActivationWorkflow:
-      enabled: true
-  marketplace:
-    # Shortened for the demo. Ten minutes is a long wait to show an add-on
-    # arriving; the default is 600.
-    syncInterval: 5
+ 
+#  licensing:
+#    enabled: true
+#    onlineActivationWorkflow:
+#      enabled: true
+#    syncInterval: 5
+#  marketplace:
+#    syncInterval: 5

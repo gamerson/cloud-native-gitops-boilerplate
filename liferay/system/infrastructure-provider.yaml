@@ -1,1 +1,3 @@
 enabled: true
+liferay-dxp-operator:
+  debug: true

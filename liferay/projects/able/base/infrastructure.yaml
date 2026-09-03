@@ -7,9 +7,9 @@ endpoints:
       externalSecretNames:
         - "liferay-certificates-runray.xyz"
 
-license:
-  externalSecretName: "liferay-licenses-developer-clustered"
-  targetSecretName: "developer-clustered"
+# license:
+#   externalSecretName: "liferay-licenses-developer-clustered"
+#   targetSecretName: "developer-clustered"
 
 # overlayAccess:
 #   enabled: true

@@ -11,6 +11,14 @@ liferay-default:
   #       into: "osgi/client-extensions/"
   #   enabled: true
   replicaCount: 1
+  # EKS Auto Mode sizes the node from the request, so the chart's 4Gi request
+  # bought a c6a.xlarge that the 12Gi limit can never fit on. Asking for 8Gi
+  # gets a c6a.2xlarge, where the limit is real and the node stops thrashing.
+  resources:
+    limits:
+      memory: 16Gi
+    requests:
+      memory: 12Gi
   # A first boot against an empty database runs every verify process before
   # Liferay answers a request, which overran the chart's 15 minute budget
   # (60s + 90 x 10s) and got the container killed partway through.

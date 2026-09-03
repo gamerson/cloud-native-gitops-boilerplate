@@ -84,5 +84,6 @@ liferay-default:
 #    onlineActivationWorkflow:
 #      enabled: true
 #    syncInterval: 5
-#  marketplace:
-#    syncInterval: 5
+  marketplace:
+    enabled: false
+    syncInterval: 5

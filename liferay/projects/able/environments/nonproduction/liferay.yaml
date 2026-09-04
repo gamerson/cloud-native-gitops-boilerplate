@@ -16,9 +16,9 @@ liferay-default:
   # gets a c6a.2xlarge, where the limit is real and the node stops thrashing.
   resources:
     limits:
-      memory: 16Gi
-    requests:
       memory: 12Gi
+    requests:
+      memory: 8Gi
   # A first boot against an empty database runs every verify process before
   # Liferay answers a request, which overran the chart's 15 minute budget
   # (60s + 90 x 10s) and got the container killed partway through.

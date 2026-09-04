@@ -35,7 +35,7 @@ liferay-default:
     # identity exchange. A second entry for the same name does not work, since
     # env is merged by name on apply. Revert once the store is repaired, and
     # re-sync this list if the chart's own changes.
-    x-liferay-aws:
+    #x-liferay-aws:
     #  - name: LIFERAY_DISABLE_TRIAL_LICENSE
     #    value: "true"
     #   - name: LIFERAY_DL_PERIOD_STORE_PERIOD_IMPL

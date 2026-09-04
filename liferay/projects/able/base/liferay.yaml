@@ -73,7 +73,7 @@ liferay-default:
   #         secretName: developer-clustered
   image:
     repository: gamerson/dxp
-    tag: 2026.q3.999
+    tag: 2026.q3.0
     #tag: 2025.q1.24-lts
  
   licensing:

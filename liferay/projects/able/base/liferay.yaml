@@ -56,9 +56,9 @@ liferay-default:
     #     value: "true"
     #   - name: LIFERAY_WEB_PERIOD_SERVER_PERIOD_FORWARDED_PERIOD_PROTOCOL_PERIOD_ENABLED
     #     value: "true"
-    # x-cmp-enable:
-    #   - name: LIFERAY_FEATURE_PERIOD_FLAG_PERIOD__UPPERCASEL__UPPERCASEP__UPPERCASED__MINUS__NUMBER5__NUMBER8__NUMBER6__NUMBER7__NUMBER7_
-    #     value: "true"
+    x-cmp-enable:
+      - name: LIFERAY_FEATURE_PERIOD_FLAG_PERIOD__UPPERCASEL__UPPERCASEP__UPPERCASED__MINUS__NUMBER5__NUMBER8__NUMBER6__NUMBER7__NUMBER7_
+        value: "true"
   # customVolumeMounts:
   #   x-license:
   #     - mountPath: /etc/liferay/mount/files/deploy

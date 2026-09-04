@@ -1,3 +1,6 @@
 enabled: true
 liferay-dxp-operator:
   debug: true
+  downloadPollInterval: 5s
+  retry:
+    initialDelay: 5s

@@ -59,11 +59,7 @@ liferay-default:
     x-cmp-enable:
       - name: LIFERAY_FEATURE_PERIOD_FLAG_PERIOD__UPPERCASEL__UPPERCASEP__UPPERCASED__MINUS__NUMBER5__NUMBER8__NUMBER6__NUMBER7__NUMBER7_
         value: "true"
-  customVolumeMounts:
-    x-marketplace:
-      - mountPath: /opt/liferay/osgi/marketplace
-        name: liferay-persistent-volume
-        subPath: osgi/marketplace
+  # customVolumeMounts:
   #   x-license:
   #     - mountPath: /etc/liferay/mount/files/deploy
   #       name: developer-clustered

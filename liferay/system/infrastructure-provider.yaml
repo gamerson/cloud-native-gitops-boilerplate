@@ -2,5 +2,12 @@ enabled: true
 liferay-dxp-operator:
   debug: true
   downloadPollInterval: 5s
+  heartbeatInterval: 15s
+  image:
+    repository: us-central1-docker.pkg.dev/external-assets-nonprd/liferay-cloud-native/release-lcd-53325/210ce83/liferay-dxp-operator
+    tag: 0.1.1
+  provisioning:
+    baseURL: https://api.one-uat.liferay.com
   retry:
     initialDelay: 5s
+    maxDelay: 2m

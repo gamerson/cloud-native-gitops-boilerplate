@@ -1,3 +1,8 @@
+# Teardown: allow Crossplane to delete the database and the storage buckets.
+database:
+  deletionProtection: false
+forceDestroy: true
+
 endpoints:
   runray.xyz:
     hostname: "*.runray.xyz"

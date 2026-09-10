@@ -6,6 +6,8 @@ liferay-dxp-operator:
   image:
     repository: us-central1-docker.pkg.dev/external-assets-nonprd/liferay-cloud-native/release-lcd-53325/f6f72fc/liferay-dxp-operator
     tag: 0.1.1
+  onlineActivationWorkflow:
+    enabled: true
   provisioning:
     baseURL: https://api.one-uat.liferay.com
   retry:

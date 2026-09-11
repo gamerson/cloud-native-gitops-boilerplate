@@ -80,6 +80,7 @@ liferay-default:
     tag: 2026.q3.2
  
   licensing:
+    dxpVersion: 2026.q3.0
     enabled: true
     onlineActivationWorkflow:
       enabled: true

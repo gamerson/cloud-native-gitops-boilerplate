@@ -4,7 +4,7 @@ liferay-dxp-operator:
   downloadPollInterval: 5s
   heartbeatInterval: 15s
   image:
-    repository: us-central1-docker.pkg.dev/external-assets-nonprd/liferay-cloud-native/release-lcd-53325/08ef98c/liferay-dxp-operator
+    repository: us-central1-docker.pkg.dev/external-assets-nonprd/liferay-cloud-native/release-lcd-53325/c421517/liferay-dxp-operator
     tag: 0.1.1
   onlineActivationWorkflow:
     enabled: true

@@ -10,7 +10,7 @@ liferay-default:
   #     - from: "overlay-test-1/osgi/client-extensions/*"
   #       into: "osgi/client-extensions/"
   #   enabled: true
-  replicaCount: 3
+  replicaCount: 1
   # EKS Auto Mode sizes the node from the request, so the chart's 4Gi request
   # bought a c6a.xlarge that the 12Gi limit can never fit on. Asking for 8Gi
   # gets a c6a.2xlarge, where the limit is real and the node stops thrashing.

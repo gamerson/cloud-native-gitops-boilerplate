@@ -26,4 +26,4 @@ liferay-default:
     failureThreshold: 240
   licensing:
     offline: true
-    offlineActivationBundle: "liferay-able-uat-offline-bundle.zip"
+    offlineActivationBundle: "liferay-able-uat-offline-activation-bundle.zip"

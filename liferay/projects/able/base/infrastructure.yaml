@@ -26,6 +26,6 @@ endpoints:
 #    engineVersion: OpenSearch_2.19
 
 # enable below on GCP
-search:
-  elasticsearch:
-    version: 8.19.21
+#search:
+  #elasticsearch:
+    #version: 8.19.21

@@ -24,3 +24,6 @@ liferay-default:
   # (60s + 90 x 10s) and got the container killed partway through.
   startupProbe:
     failureThreshold: 240
+  licensing:
+    offline: true
+    offlineActivationBundle: "liferay-able-nonproduction-offline-activation-bundle.zip"

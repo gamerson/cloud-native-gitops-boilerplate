@@ -1,8 +1,8 @@
 clientExtensions:
   - chart: oci://ghcr.io/gamerson/lcd-53966/charts/liferay-sample-batch
-    version: 0.0.0-gc823be5a92c6
+    version: 0.0.1
   - chart: oci://ghcr.io/gamerson/lcd-53966/charts/liferay-sample-custom-element-2
-    version: 0.0.0-g2daf89891075
+    version: 0.0.1
     values:
       clientExtension:
         domain: custom-element-2-able-nonproduction.runray.xyz
@@ -17,7 +17,7 @@ clientExtensions:
           - emptyDir: {}
             name: caddy-d
   - chart: oci://ghcr.io/gamerson/lcd-53966/charts/liferay-sample-etc-spring-boot
-    version: 0.0.0-g2c4ba6e80eea
+    version: 0.0.1
     values:
       clientExtension:
         domain: etc-spring-boot-able-nonproduction.runray.xyz
@@ -25,7 +25,7 @@ clientExtensions:
         enabled: true
         endpointRef: runray.xyz
   - chart: oci://ghcr.io/gamerson/lcd-53966/charts/liferay-sample-global-css-1
-    version: 0.0.0-ge235e159e8a0
+    version: 0.0.1
     values:
       clientExtension:
         domain: global-css-1-able-nonproduction.runray.xyz
@@ -33,7 +33,7 @@ clientExtensions:
         enabled: true
         endpointRef: runray.xyz
   - chart: oci://ghcr.io/gamerson/lcd-53966/charts/liferay-sample-instance-settings
-    version: 0.0.0-g1ba8099f2aca
+    version: 0.0.1
 
 liferay-default:
   customEnv:

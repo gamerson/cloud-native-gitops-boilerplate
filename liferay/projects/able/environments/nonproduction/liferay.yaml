@@ -21,6 +21,12 @@ clientExtensions:
     version: 0.0.0-g1ba8099f2aca
 
 liferay-default:
+  customEnv:
+    # The Gateway redirects HTTP to HTTPS, so DXP must advertise https in its
+    # lxc-dxp-metadata ConfigMap, or client extensions calling it get a 301.
+    x-web-server-protocol:
+      - name: LIFERAY_WEB_PERIOD_SERVER_PERIOD_PROTOCOL
+        value: https
   network:
     enabled: true
     endpointRef: runray.xyz

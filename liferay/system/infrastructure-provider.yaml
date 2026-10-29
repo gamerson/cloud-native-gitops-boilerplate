@@ -1,12 +1,1 @@
 enabled: true
-liferay-dxp-operator:
-  debug: true
-  downloadPollInterval: 5s
-  heartbeatInterval: 15s
-  onlineActivationWorkflow:
-    enabled: true
-  provisioning:
-    baseURL: https://api.one-uat.liferay.com
-  retry:
-    initialDelay: 5s
-    maxDelay: 2m

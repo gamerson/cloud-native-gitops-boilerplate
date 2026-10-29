@@ -1,6 +1,4 @@
 # Teardown: allow Crossplane to delete the database and the storage buckets.
-database:
-  deletionProtection: false
 forceDestroy: true
 
 endpoints:
@@ -13,7 +11,7 @@ endpoints:
         - "liferay-certificates-runrayxyz"
 
 # license:
-#   externalSecretName: "liferay-licenses-developer-clustered"
+#   externalSecretKey: "liferay-licenses-developer-clustered"
 #   targetSecretName: "developer-clustered"
 
 overlayAccess:
@@ -23,7 +21,7 @@ overlayAccess:
 # 2.15, which the search engine rejects at startup.
 search:
   opensearch:
-    engineVersion: OpenSearch_2.19
+    version: 2.19
 
 # enable below on GCP
 #search:

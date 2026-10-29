@@ -9,6 +9,13 @@ clientExtensions:
       network:
         enabled: true
         endpointRef: runray.xyz
+      workload:
+        volumeMounts:
+          - mountPath: /etc/caddy.d
+            name: caddy-d
+        volumes:
+          - emptyDir: {}
+            name: caddy-d
   - chart: oci://ghcr.io/gamerson/lcd-53966/charts/liferay-sample-etc-spring-boot
     version: 0.0.0-g2c4ba6e80eea
     values:

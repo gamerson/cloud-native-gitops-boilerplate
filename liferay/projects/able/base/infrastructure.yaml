@@ -21,7 +21,7 @@ overlayAccess:
 # 2.15, which the search engine rejects at startup.
 search:
   opensearch:
-    version: 2.19
+    version: "2.19"
 
 # enable below on GCP
 #search:

@@ -1,4 +1,13 @@
 liferay-default:
+  networkPolicy:
+    extraIngress:
+      - from:
+          - namespaceSelector:
+              matchLabels:
+                kubernetes.io/metadata.name: observability
+        ports:
+          - port: 12345
+            protocol: TCP
   # customInitContainers:
   #   x-liferay-prepopulate-marketplace:
   #     - containerTemplate: |

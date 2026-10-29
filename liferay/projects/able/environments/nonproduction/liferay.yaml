@@ -1,3 +1,43 @@
+clientExtensions:
+  - chart: oci://ghcr.io/gamerson/lcd-53966/charts/liferay-sample-batch
+    version: 0.1.0
+  - chart: oci://ghcr.io/gamerson/lcd-53966/charts/liferay-sample-etc-spring-boot
+    version: 0.1.0
+    values:
+      clientExtension:
+        domain: etc-spring-boot-able-nonproduction.runray.xyz
+      network:
+        enabled: true
+        endpointRef: runray.xyz
+  - chart: oci://ghcr.io/gamerson/lcd-53966/charts/liferay-sample-global-css-1
+    version: 0.1.0
+    values:
+      clientExtension:
+        domain: global-css-1-able-nonproduction.runray.xyz
+      network:
+        enabled: true
+        endpointRef: runray.xyz
+  - chart: oci://ghcr.io/gamerson/lcd-53966/charts/liferay-sample-instance-settings
+    version: 0.1.0
+
+# Temporary: lets DXP's Kubernetes agent write its metadata and ext-init
+# ConfigMaps. Remove once liferay-default grants this when client extension
+# delivery is enabled.
+global:
+  liferayServiceAccount:
+    role:
+      rules:
+        - apiGroups:
+            - ""
+          resources:
+            - configmaps
+          verbs:
+            - create
+            - get
+            - list
+            - update
+            - watch
+
 liferay-default:
   network:
     enabled: true
@@ -11,7 +51,7 @@ liferay-default:
         into: "osgi/modules/"
     enabled: true
     type: s3
-  replicaCount: 0
+  replicaCount: 1
   # EKS Auto Mode sizes the node from the request, so the chart's 4Gi request
   # bought a c6a.xlarge that the 12Gi limit can never fit on. Asking for 8Gi
   # gets a c6a.2xlarge, where the limit is real and the node stops thrashing.

@@ -1,6 +1,13 @@
 # Teardown: allow Crossplane to delete the database and the storage buckets.
 forceDestroy: true
 
+backup:
+  enabled: true
+  frequency: Daily
+  timeOfDay: "10:45"
+  timeZone: America/Chicago
+  retentionDays: 7
+
 endpoints:
   runray.xyz:
     hostname: "*.runray.xyz"

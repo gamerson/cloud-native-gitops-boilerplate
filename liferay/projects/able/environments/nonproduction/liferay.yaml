@@ -1,6 +1,14 @@
 clientExtensions:
   - chart: oci://ghcr.io/gamerson/lcd-53966/charts/liferay-sample-batch
     version: 0.0.0-gc823be5a92c6
+  - chart: oci://ghcr.io/gamerson/lcd-53966/charts/liferay-sample-custom-element-2
+    version: 0.0.0-g2daf89891075
+    values:
+      clientExtension:
+        domain: custom-element-2-able-nonproduction.runray.xyz
+      network:
+        enabled: true
+        endpointRef: runray.xyz
   - chart: oci://ghcr.io/gamerson/lcd-53966/charts/liferay-sample-etc-spring-boot
     version: 0.0.0-g2c4ba6e80eea
     values:

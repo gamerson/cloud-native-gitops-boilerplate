@@ -20,24 +20,6 @@ clientExtensions:
   - chart: oci://ghcr.io/gamerson/lcd-53966/charts/liferay-sample-instance-settings
     version: 0.0.0-g1ba8099f2aca
 
-# Temporary: lets DXP's Kubernetes agent write its metadata and ext-init
-# ConfigMaps. Remove once liferay-default grants this when client extension
-# delivery is enabled.
-global:
-  liferayServiceAccount:
-    role:
-      rules:
-        - apiGroups:
-            - ""
-          resources:
-            - configmaps
-          verbs:
-            - create
-            - get
-            - list
-            - update
-            - watch
-
 liferay-default:
   network:
     enabled: true

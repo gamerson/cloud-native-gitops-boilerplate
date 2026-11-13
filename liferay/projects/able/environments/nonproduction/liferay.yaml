@@ -9,6 +9,12 @@ clientExtensions:
       network:
         enabled: true
         endpointRef: runray.xyz
+  - descriptor: oci://ghcr.io/gamerson/lcd-53904/descriptors/liferay-sample-etc-cron
+    version: 0.1.0
+    values:
+      workload:
+        kind: CronJob
+        schedule: "*/15 * * * *"
   - descriptor: oci://ghcr.io/gamerson/lcd-53904/descriptors/liferay-sample-etc-node
     version: 0.1.0
     values:

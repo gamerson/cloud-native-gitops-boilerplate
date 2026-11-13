@@ -17,6 +17,8 @@ clientExtensions:
       network:
         enabled: true
         endpointRef: runray.xyz
+      workload:
+        containerPort: 3001
   - descriptor: oci://ghcr.io/gamerson/lcd-53904/descriptors/liferay-sample-etc-spring-boot
     version: 0.1.0
     values:
@@ -25,6 +27,8 @@ clientExtensions:
       network:
         enabled: true
         endpointRef: runray.xyz
+      workload:
+        containerPort: 58081
 
 liferay-default:
   customEnv:

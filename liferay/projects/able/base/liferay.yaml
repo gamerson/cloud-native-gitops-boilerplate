@@ -1,4 +1,7 @@
 liferay-default:
+  clientExtensions:
+    delivery:
+      enabled: true
   networkPolicy:
     extraIngress:
       - from:

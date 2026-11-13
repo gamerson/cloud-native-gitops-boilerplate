@@ -1,39 +1,30 @@
 clientExtensions:
-  - chart: oci://ghcr.io/gamerson/lcd-53966/charts/liferay-sample-batch
-    version: 0.0.1
-  - chart: oci://ghcr.io/gamerson/lcd-53966/charts/liferay-sample-custom-element-2
-    version: 0.0.1
+  - descriptor: oci://ghcr.io/gamerson/lcd-53904/descriptors/liferay-sample-batch
+    version: 0.1.0
+  - descriptor: oci://ghcr.io/gamerson/lcd-53904/descriptors/liferay-sample-custom-element-2
+    version: 0.1.0
     values:
       clientExtension:
         domain: custom-element-2-able-nonproduction.runray.xyz
       network:
         enabled: true
         endpointRef: runray.xyz
-      workload:
-        volumeMounts:
-          - mountPath: /etc/caddy.d
-            name: caddy-d
-        volumes:
-          - emptyDir: {}
-            name: caddy-d
-  - chart: oci://ghcr.io/gamerson/lcd-53966/charts/liferay-sample-etc-spring-boot
-    version: 0.0.1
+  - descriptor: oci://ghcr.io/gamerson/lcd-53904/descriptors/liferay-sample-etc-node
+    version: 0.1.0
+    values:
+      clientExtension:
+        domain: etc-node-able-nonproduction.runray.xyz
+      network:
+        enabled: true
+        endpointRef: runray.xyz
+  - descriptor: oci://ghcr.io/gamerson/lcd-53904/descriptors/liferay-sample-etc-spring-boot
+    version: 0.1.0
     values:
       clientExtension:
         domain: etc-spring-boot-able-nonproduction.runray.xyz
       network:
         enabled: true
         endpointRef: runray.xyz
-  - chart: oci://ghcr.io/gamerson/lcd-53966/charts/liferay-sample-global-css-1
-    version: 0.0.1
-    values:
-      clientExtension:
-        domain: global-css-1-able-nonproduction.runray.xyz
-      network:
-        enabled: true
-        endpointRef: runray.xyz
-  - chart: oci://ghcr.io/gamerson/lcd-53966/charts/liferay-sample-instance-settings
-    version: 0.0.1
 
 liferay-default:
   customEnv:

@@ -1,40 +1,16 @@
 clientExtensions:
-  - descriptor: oci://ghcr.io/gamerson/lcd-53904/liferay-sample-batch-descriptor
-    version: 0.2.0
-  - descriptor: oci://ghcr.io/gamerson/lcd-53904/liferay-sample-custom-element-2-descriptor
-    version: 0.2.0
+  liferay-sample-custom-element-2:
     values:
       clientExtension:
         domain: custom-element-2-able-nonproduction.runray.xyz
-      network:
-        enabled: true
-        endpointRef: runray.xyz
-  - descriptor: oci://ghcr.io/gamerson/lcd-53904/liferay-sample-etc-cron-descriptor
-    version: 0.2.0
-    values:
-      workload:
-        kind: CronJob
-        schedule: "*/15 * * * *"
-  - descriptor: oci://ghcr.io/gamerson/lcd-53904/liferay-sample-etc-node-descriptor
-    version: 0.2.0
+  liferay-sample-etc-node:
     values:
       clientExtension:
         domain: etc-node-able-nonproduction.runray.xyz
-      network:
-        enabled: true
-        endpointRef: runray.xyz
-      workload:
-        containerPort: 3001
-  - descriptor: oci://ghcr.io/gamerson/lcd-53904/liferay-sample-etc-spring-boot-descriptor
-    version: 0.2.0
+  liferay-sample-etc-spring-boot:
     values:
       clientExtension:
         domain: etc-spring-boot-able-nonproduction.runray.xyz
-      network:
-        enabled: true
-        endpointRef: runray.xyz
-      workload:
-        containerPort: 58081
 
 liferay-default:
   customEnv:

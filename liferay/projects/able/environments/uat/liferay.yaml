@@ -1,3 +1,16 @@
+# This environment runs no DXP yet, so the client extensions from base/liferay.yaml stay off.
+clientExtensions:
+  liferay-sample-batch:
+    enabled: false
+  liferay-sample-custom-element-2:
+    enabled: false
+  liferay-sample-etc-cron:
+    enabled: false
+  liferay-sample-etc-node:
+    enabled: false
+  liferay-sample-etc-spring-boot:
+    enabled: false
+
 liferay-default:
   network:
     enabled: true

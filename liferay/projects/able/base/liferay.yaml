@@ -1,21 +1,21 @@
 clientExtensions:
   liferay-sample-batch:
     descriptor: oci://ghcr.io/gamerson/lcd-53904/liferay-sample-batch-descriptor
-    version: 0.6.0
+    version: 1.0.0
   liferay-sample-custom-element-2:
     descriptor: oci://ghcr.io/gamerson/lcd-53904/liferay-sample-custom-element-2-descriptor
     values:
       network:
         enabled: true
         endpointRef: runray.xyz
-    version: 0.6.0
+    version: 1.0.0
   liferay-sample-etc-cron:
     descriptor: oci://ghcr.io/gamerson/lcd-53904/liferay-sample-etc-cron-descriptor
     values:
       workload:
         kind: CronJob
         schedule: "*/15 * * * *"
-    version: 0.7.0
+    version: 1.0.0
   liferay-sample-etc-node:
     descriptor: oci://ghcr.io/gamerson/lcd-53904/liferay-sample-etc-node-descriptor
     values:
@@ -24,7 +24,7 @@ clientExtensions:
         endpointRef: runray.xyz
       workload:
         containerPort: 3001
-    version: 0.6.0
+    version: 1.0.0
   liferay-sample-etc-spring-boot:
     descriptor: oci://ghcr.io/gamerson/lcd-53904/liferay-sample-etc-spring-boot-descriptor
     values:
@@ -33,7 +33,7 @@ clientExtensions:
         endpointRef: runray.xyz
       workload:
         containerPort: 58081
-    version: 0.6.0
+    version: 1.0.0
 
 liferay-default:
   clientExtensions:

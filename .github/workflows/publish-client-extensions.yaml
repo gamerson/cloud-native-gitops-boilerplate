@@ -86,28 +86,13 @@ jobs:
                     {
                         echo "## Published ${VERSION}"
                         echo ""
-                        echo "To pin an environment to this build, use these versions in its \`liferay.yaml\`. They are also in the \`client-extension-versions-${VERSION}\` artifact."
-                        echo ""
-                        echo "| Client extension | Pinned version | Descriptor |"
-                        echo "| --- | --- | --- |"
+                        echo '```'
 
-                        while read -r name pinned_version descriptor
-                        do
-                            echo "| \`${name}\` | \`${pinned_version}\` | \`oci://${descriptor}\` |"
-                        done <<< "${descriptors}"
+                        grep --only-matching '^Pushed [^ ]*-descriptor:[^@ ]*\.[0-9a-f]\{12\}@' publish.log \
+                            | sed 's/^Pushed //; s/@$//' \
+                            | sort --unique
 
-                        echo ""
-                        echo '```yaml'
-                        cat client-extension-versions.yaml
                         echo '```'
-                        echo ""
-                        echo "<details><summary>Every pushed reference</summary>"
-                        echo ""
-                        echo '```'
-                        grep '^Pushed ' publish.log | sed 's/^Pushed //'
-                        echo '```'
-                        echo ""
-                        echo "</details>"
                         echo ""
                         echo "## Make The Packages Public"
                         echo ""

@@ -64,12 +64,50 @@ jobs:
                         owner_path="users/${GITHUB_REPOSITORY_OWNER}"
                     fi
 
+                    # Each descriptor's digest tag, <version>.<12 hex>, pins
+                    # this exact build when it is a client extension's version
+                    # in liferay.yaml.
+
+                    descriptors=$(
+                        grep --only-matching '^Pushed [^ ]*-descriptor:[^@ ]*\.[0-9a-f]\{12\}@' publish.log \
+                            | sed --regexp-extended 's|^Pushed (.*)/([^/]+)-descriptor:([^@]+)@$|\2 \3 \1/\2-descriptor|' \
+                            | sort --unique)
+
+                    {
+                        echo "clientExtensions:"
+
+                        while read -r name pinned_version descriptor
+                        do
+                            echo "  ${name}:"
+                            echo "    version: ${pinned_version}"
+                        done <<< "${descriptors}"
+                    } > client-extension-versions.yaml
+
                     {
                         echo "## Published ${VERSION}"
+                        echo ""
+                        echo "To pin an environment to this build, use these versions in its \`liferay.yaml\`. They are also in the \`client-extension-versions-${VERSION}\` artifact."
+                        echo ""
+                        echo "| Client extension | Pinned version | Descriptor |"
+                        echo "| --- | --- | --- |"
+
+                        while read -r name pinned_version descriptor
+                        do
+                            echo "| \`${name}\` | \`${pinned_version}\` | \`oci://${descriptor}\` |"
+                        done <<< "${descriptors}"
+
+                        echo ""
+                        echo '```yaml'
+                        cat client-extension-versions.yaml
+                        echo '```'
+                        echo ""
+                        echo "<details><summary>Every pushed reference</summary>"
                         echo ""
                         echo '```'
                         grep '^Pushed ' publish.log | sed 's/^Pushed //'
                         echo '```'
+                        echo ""
+                        echo "</details>"
                         echo ""
                         echo "## Make The Packages Public"
                         echo ""
@@ -84,3 +122,8 @@ jobs:
                                 echo "- [${package}](https://github.com/${owner_path}/packages/container/${package//\//%2F}/settings)"
                             done
                     } >> "${GITHUB_STEP_SUMMARY}"
+            -   name: Upload client extension versions
+                uses: actions/upload-artifact@v4
+                with:
+                    name: client-extension-versions-${{ inputs.version }}
+                    path: liferay-workspace/client-extension-versions.yaml

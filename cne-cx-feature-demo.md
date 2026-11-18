@@ -139,7 +139,7 @@ Publish from your machine (below) or from GitHub Actions ([Publish From GitHub A
 
 1. Set the registry in `liferay-workspace/gradle.properties` to `ghcr.io/<owner of your gitops repository>/<path>` and push. The workflow can push only to packages under the account that owns the repository.
 1. In the repository's **Actions** tab, choose **Publish Client Extensions**, then **Run workflow**, and enter the version.
-1. The run's summary lists every pushed reference, with a link to each package's settings page.
+1. The run's summary has a table of each client extension's pinned version, the descriptor's digest tag `<version>.<12 hex>`, and the same list as a `liferay.yaml` fragment you can paste into an environment to pin that exact build. The fragment is also attached to the run as the `client-extension-versions-<version>` artifact; fetch it with `gh run download <run-id> --name client-extension-versions-<version>`. Below that come every pushed reference and a link to each package's settings page.
 
 If a package already exists because you published it from your machine first, the workflow cannot push to it until you open that package's settings, find **Manage Actions access**, click **Add Repository**, and give the gitops repository the **Write** role.
 

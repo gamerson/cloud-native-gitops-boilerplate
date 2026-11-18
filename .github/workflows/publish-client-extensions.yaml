@@ -1,0 +1,86 @@
+# Builds the client extensions in liferay-workspace and publishes each one's
+# workload image and descriptor image to the registry that
+# liferay-workspace/gradle.properties names, such as ghcr.io/<owner>/<path>.
+#
+# Run it from the Actions tab (Publish Client Extensions, Run workflow) with
+# the version to publish, then put that version in liferay.yaml.
+#
+# The workflow cannot make the packages public: GitHub has no API for a
+# package's visibility. The run's summary links each package's settings page,
+# where Change visibility makes it public. That is needed once per package,
+# since later versions keep the package's visibility.
+
+name: Publish Client Extensions
+
+on:
+    workflow_dispatch:
+        inputs:
+            version:
+                description: Version to publish the client extensions at, such as 1.0.1
+                required: true
+                type: string
+
+permissions:
+    contents: read
+    packages: write
+
+jobs:
+    publish:
+        defaults:
+            run:
+                shell: bash
+                working-directory: liferay-workspace
+        runs-on: ubuntu-latest
+        steps:
+            -   name: Check out
+                uses: actions/checkout@v4
+            -   name: Set up Java
+                uses: actions/setup-java@v4
+                with:
+                    distribution: temurin
+                    java-version: "21"
+            -   name: Log in to GitHub Container Registry
+                uses: docker/login-action@v3
+                with:
+                    password: ${{ secrets.GITHUB_TOKEN }}
+                    registry: ghcr.io
+                    username: ${{ github.actor }}
+            -   name: Publish client extensions
+                env:
+                    VERSION: ${{ inputs.version }}
+                run: |
+                    ./gradlew publishClientExtension \
+                        "-Pliferay.workspace.client.extension.version=${VERSION}" \
+                        | tee publish.log
+            -   name: Summarize packages
+                env:
+                    OWNER_TYPE: ${{ github.event.repository.owner.type }}
+                    VERSION: ${{ inputs.version }}
+                run: |
+                    if [[ "${OWNER_TYPE}" == "Organization" ]]
+                    then
+                        owner_path="orgs/${GITHUB_REPOSITORY_OWNER}"
+                    else
+                        owner_path="users/${GITHUB_REPOSITORY_OWNER}"
+                    fi
+
+                    {
+                        echo "## Published ${VERSION}"
+                        echo ""
+                        echo '```'
+                        grep '^Pushed ' publish.log | sed 's/^Pushed //'
+                        echo '```'
+                        echo ""
+                        echo "## Make The Packages Public"
+                        echo ""
+                        echo "New packages are private. Open each one's settings, choose **Change visibility**, and select **Public**:"
+                        echo ""
+
+                        grep '^Pushed ' publish.log \
+                            | sed --regexp-extended 's|^Pushed ghcr\.io/[^/]+/([^:@]+).*|\1|' \
+                            | sort --unique \
+                            | while read -r package
+                            do
+                                echo "- [${package}](https://github.com/${owner_path}/packages/container/${package//\//%2F}/settings)"
+                            done
+                    } >> "${GITHUB_STEP_SUMMARY}"

@@ -1,0 +1,20 @@
+buildscript {
+	dependencies {
+		classpath group: "com.liferay", name: "com.liferay.gradle.plugins.workspace", version: "17.2.0-SNAPSHOT"
+	}
+
+	repositories {
+		// The Workspace plugin snapshot built from release/LCD-53904 on
+		// cloudnative-team/liferay-portal, which no public repository has yet.
+
+		maven {
+			url new File(settingsDir, "maven-repository")
+		}
+
+		maven {
+			url "https://repository-cdn.liferay.com/nexus/content/groups/public"
+		}
+	}
+}
+
+apply plugin: "com.liferay.workspace"

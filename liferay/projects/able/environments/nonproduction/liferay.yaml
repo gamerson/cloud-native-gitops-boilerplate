@@ -23,10 +23,6 @@ clientExtensions:
     version: 1.0.5.d59b3753e64c
 
 liferay-default:
-  clientExtensions:
-    policy:
-      allowedNamespaces:
-        - liferay-able-cx-nonproduction
   customEnv:
     x-web-server-protocol:
       - name: LIFERAY_WEB_PERIOD_SERVER_PERIOD_PROTOCOL

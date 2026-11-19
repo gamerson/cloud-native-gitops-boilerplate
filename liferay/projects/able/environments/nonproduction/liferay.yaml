@@ -1,4 +1,8 @@
 clientExtensions:
+  liferay-sample-global-css-1:
+    values:
+      clientExtension:
+        domain: global-css-1-able-nonproduction.runray.xyz
   liferay-sample-custom-element-2:
     values:
       clientExtension:

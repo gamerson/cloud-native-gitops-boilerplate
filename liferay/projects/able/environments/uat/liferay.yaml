@@ -10,6 +10,8 @@ clientExtensions:
     enabled: false
   liferay-sample-etc-spring-boot:
     enabled: false
+  liferay-sample-global-css-1:
+    enabled: false
 
 liferay-default:
   network:

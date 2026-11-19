@@ -158,15 +158,17 @@ enabled: true
 
 ### `liferay/projects/able/base/liferay.yaml`
 
-The client extensions, keyed by name, at the versions in their `gradle.properties`. Every environment inherits these:
+Every client extension, keyed by name, at the version in its `gradle.properties`, and turned off. Each environment turns on the ones it runs:
 
 ```yaml
 clientExtensions:
   liferay-sample-batch:
     descriptor: oci://${REGISTRY}/liferay-sample-batch-descriptor
+    enabled: false
     version: 1.0.2
   liferay-sample-custom-element-2:
     descriptor: oci://${REGISTRY}/liferay-sample-custom-element-2-descriptor
+    enabled: false
     values:
       network:
         enabled: true
@@ -174,6 +176,7 @@ clientExtensions:
     version: 1.0.2
   liferay-sample-etc-cron:
     descriptor: oci://${REGISTRY}/liferay-sample-etc-cron-descriptor
+    enabled: false
     values:
       workload:
         kind: CronJob
@@ -181,6 +184,7 @@ clientExtensions:
     version: 1.0.2
   liferay-sample-etc-node:
     descriptor: oci://${REGISTRY}/liferay-sample-etc-node-descriptor
+    enabled: false
     values:
       network:
         enabled: true
@@ -190,6 +194,7 @@ clientExtensions:
     version: 1.0.2
   liferay-sample-etc-spring-boot:
     descriptor: oci://${REGISTRY}/liferay-sample-etc-spring-boot-descriptor
+    enabled: false
     values:
       network:
         enabled: true
@@ -199,6 +204,7 @@ clientExtensions:
     version: 1.0.5
   liferay-sample-global-css-1:
     descriptor: oci://${REGISTRY}/liferay-sample-global-css-1-descriptor
+    enabled: false
     values:
       network:
         enabled: true
@@ -214,6 +220,7 @@ liferay-default:
     tag: 2026.q3.5
 ```
 
+- `enabled: false` keeps a client extension out of every environment that does not turn it on.
 - `descriptor` and `version` pick the build. `version` is a plain version such as `1.0.2`, or a digest tag such as `1.0.2.8c080d14bb0e` from the publish summary to pin one exact build.
 - `values` is passed to the `liferay-client-extension` chart and wins over what the descriptor says.
 - `network` gives the four client extensions that serve HTTP a route on the environment's gateway.
@@ -226,23 +233,31 @@ The rest of `liferay-default` in this repository's file, such as licensing and m
 
 ### `liferay/projects/able/environments/nonproduction/liferay.yaml`
 
-Each HTTP client extension's public hostname, one DXP pod, and what DXP needs behind the gateway:
+The client extensions nonproduction runs, each HTTP one's public hostname, one DXP pod, and what DXP needs behind the gateway:
 
 ```yaml
 clientExtensions:
+  liferay-sample-batch:
+    enabled: true
   liferay-sample-custom-element-2:
+    enabled: true
     values:
       clientExtension:
         domain: custom-element-2-able-nonproduction.runray.xyz
+  liferay-sample-etc-cron:
+    enabled: true
   liferay-sample-etc-node:
+    enabled: true
     values:
       clientExtension:
         domain: etc-node-able-nonproduction.runray.xyz
   liferay-sample-etc-spring-boot:
+    enabled: true
     values:
       clientExtension:
         domain: etc-spring-boot-able-nonproduction.runray.xyz
   liferay-sample-global-css-1:
+    enabled: true
     values:
       clientExtension:
         domain: global-css-1-able-nonproduction.runray.xyz
@@ -268,6 +283,7 @@ liferay-default:
     failureThreshold: 240
 ```
 
+- `enabled: true` turns on a client extension that `base` defines.
 - `clientExtension.domain` is the hostname a client extension is served on, and the address DXP uses for it. A client extension that serves HTTP with no domain still runs, but has no URL, so a browser cannot reach it.
 - `LIFERAY_WEB_PERIOD_SERVER_PERIOD_PROTOCOL=https`: the gateway redirects HTTP to HTTPS, so DXP must advertise `https` to client extensions, or their calls back to DXP get a `301`.
 - `resources`: EKS Auto Mode sizes the node from the request, and the chart's 4Gi default gets a node that cannot fit the 12Gi limit.
@@ -275,25 +291,7 @@ liferay-default:
 
 ### `liferay/projects/able/environments/uat/liferay.yaml` And `production/liferay.yaml`
 
-These environments run no DXP, so every client extension is turned off in both:
-
-```yaml
-clientExtensions:
-  liferay-sample-batch:
-    enabled: false
-  liferay-sample-custom-element-2:
-    enabled: false
-  liferay-sample-etc-cron:
-    enabled: false
-  liferay-sample-etc-node:
-    enabled: false
-  liferay-sample-etc-spring-boot:
-    enabled: false
-  liferay-sample-global-css-1:
-    enabled: false
-```
-
-Without these entries, each client extension in `base` would also get an Application there that stays `Pending`.
+These environments run no DXP, so they turn on no client extensions, and need no `clientExtensions` entries at all.
 
 ### How Base And Environment Values Combine
 
@@ -303,6 +301,7 @@ For each environment, the client extension ApplicationSet merges the environment
 # base/liferay.yaml: every environment's default
   liferay-sample-etc-spring-boot:
     descriptor: oci://${REGISTRY}/liferay-sample-etc-spring-boot-descriptor
+    enabled: false
     values:
       network:
         enabled: true
@@ -313,13 +312,16 @@ For each environment, the client extension ApplicationSet merges the environment
 
 # environments/nonproduction/liferay.yaml: wins in nonproduction
   liferay-sample-etc-spring-boot:
+    enabled: true
     values:
       clientExtension:
         domain: etc-spring-boot-able-nonproduction.runray.xyz
     version: 1.0.6.<12 hex>
 ```
 
-Nonproduction runs the pinned `1.0.6` build, with `descriptor`, `network`, and `containerPort` from `base` and `domain` from nonproduction. Any environment without its own `version` runs `1.0.5`. `enabled: false` in an environment removes the entry there. To see what each environment runs:
+Nonproduction runs the pinned `1.0.6` build, with `descriptor`, `network`, and `containerPort` from `base` and `enabled` and `domain` from nonproduction. Another environment that turns it on without its own `version` runs `1.0.5`.
+
+Keep `enabled: false` in `base` and `enabled: true` in environments, not the other way around: an environment's `false` cannot turn off a `true` from `base`, because the merge does not let a `false` replace a value that is set. To see what each environment runs:
 
 ```bash
 kubectl get clientextensions --all-namespaces \
@@ -668,7 +670,7 @@ So a descriptor's digest tag pins both the configuration and, through the digest
 ## Ship A New Version Or Add A Client Extension
 
 - **New version:** change a sample, raise the `version` in its `gradle.properties`, and push. The workflow publishes only that client extension. Then set its `version` in `liferay.yaml`, in `base` or in one environment, and push.
-- **New client extension:** copy its project into `liferay-workspace/client-extensions/`, give it a `gradle.properties` with `version=1.0.0`, and push. Make its two new packages public. Then add the summary's snippet to `base/liferay.yaml`, with `values.network` if it serves HTTP; give it a `domain` in each environment that runs it and a DNS record for that domain; and add `enabled: false` in each environment that does not run it.
+- **New client extension:** copy its project into `liferay-workspace/client-extensions/`, give it a `gradle.properties` with `version=1.0.0`, and push. Make its two new packages public. Then add the summary's snippet to `base/liferay.yaml` with `enabled: false`, plus `values.network` if it serves HTTP; and in each environment that runs it, add `enabled: true`, its `domain`, and a DNS record for that domain.
 
 ## Make Argo CD Pick Up A Change Now
 
@@ -690,46 +692,7 @@ kubectl annotate applications --all --namespace argocd-system \
 
 **Hard Refresh** on an Application in the Argo CD UI does the same for one Application. `argocd.argoproj.io/refresh` on an ApplicationSet does nothing; it is only for Applications.
 
-## Next Steps After This Release
-
-Neither of these has been tested yet. The notes come from reading the charts and the operator.
-
-### Client Extensions In A Different Namespace From DXP
-
-**Goal:** DXP runs in one namespace and its client extensions in another, for example to give a team its own namespace.
-
-**What exists:**
-
-- The `liferay-client-extension` chart has `clientExtension.dxpNamespace`. When it differs from the release's namespace, the chart sets `spec.dxpNamespace` on the ClientExtension and adds a RoleBinding that lets the DXP operator deliver into the client extension's namespace.
-- The operator reports `DxpNamespaceNotFound` when that namespace does not exist, and `NamespaceNotPermitted` unless the DXP namespace's `client-extension-policy` ConfigMap lists the client extension's namespace.
-- The `liferay-default` chart writes that ConfigMap from `clientExtensions.policy.allowedNamespaces`.
-
-**What is missing:**
-
-- The client extension ApplicationSet always deploys into `liferay-<project>-<environment>`, the DXP namespace, and never sets `clientExtension.dxpNamespace`, so a `liferay.yaml` entry cannot ask for another namespace. The ApplicationSet needs a per-entry namespace, something to create that namespace, and the AppProject must allow it as a destination.
-- DXP's NetworkPolicy has to admit traffic from the client extension namespace, and that namespace needs the same pod security labels.
-
-**To test:** install the chart by hand into a second namespace with `clientExtension.dxpNamespace=${NS}` and the DXP chart's `allowedNamespaces` set. Check that the ClientExtension reaches `Ready`, its configuration appears in DXP, the `lxc-dxp-metadata` and `ext-init` ConfigMaps the pod mounts exist in its own namespace, and object actions and the backends' calls to DXP work across the namespaces. Then check that an unlisted namespace gets `NamespaceNotPermitted`.
-
-### Backends On The Cluster Network Only
-
-**Goal:** a backend that only DXP calls, such as one with object or workflow actions and no browser traffic, gets no public route or DNS record, and DXP calls it on its cluster address, `http://<service>.<namespace>.svc.cluster.local:<port>`.
-
-**What exists:**
-
-- The chart renders a Service for a client extension that runs as a Deployment, and its HTTPRoute only when `network.enabled` is true.
-- DXP builds a client extension's address from `.serviceScheme` and `.serviceAddress` in its configurations, which Workspace takes from `client-extension.yaml`, such as `http` and `localhost:58081`.
-- The operator passes `clientExtension.domain` to DXP as the client extension's main domain, and DXP calls the object actions through it (the JWT audience in Step 8 is that domain). How DXP combines the main domain with `.serviceAddress` has not been checked.
-- The chart merges `clientExtension.configs` from `values` over the descriptor's `configs`.
-
-**What to try:** leave out `network` and `clientExtension.domain`, and override `.serviceScheme` and `.serviceAddress` through `values.clientExtension.configs` with the Service's cluster address. Then check that:
-
-- the object actions still fire and reach the backend;
-- the JWT audience DXP signs, now the cluster address, is the one the backend accepts;
-- the ClientExtension's status is sensible without a URL;
-- DXP's NetworkPolicy lets it reach the client extension's pod.
-
-If overriding each configuration is clumsy, the follow-up is a chart or operator setting, such as `clientExtension.internal: true`, that sets the address from the Service. Backends a browser calls, such as custom-element-2's, still need a public route.
+See [`cne-cx-next-steps.md`](cne-cx-next-steps.md) for what comes after this release.
 
 ## Teardown
 

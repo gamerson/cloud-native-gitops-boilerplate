@@ -12,6 +12,7 @@ clientExtensions:
     values:
       clientExtension:
         domain: etc-spring-boot-able-nonproduction.runray.xyz
+    version: 1.0.4.e81c7c5ba704
 
 liferay-default:
   customEnv:

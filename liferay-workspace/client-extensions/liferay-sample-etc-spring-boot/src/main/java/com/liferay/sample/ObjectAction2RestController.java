@@ -62,6 +62,8 @@ public class ObjectAction2RestController extends BaseRestController {
 			HttpStatus.OK);
 
 		_log.info("success");
+		_log.info("success123");
+		_log.info("success123");
 
 		return responseEntity;
 	}

@@ -34,6 +34,8 @@ public class ObjectAction1RestController extends BaseRestController {
 
 		log(jwt, _log, json);
 
+		_log.info("success123");
+
 		return new ResponseEntity<>(json, HttpStatus.OK);
 	}
 

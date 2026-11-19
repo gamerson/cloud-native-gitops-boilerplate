@@ -1,6 +1,7 @@
 clientExtensions:
   liferay-sample-global-css-1:
     descriptor: oci://ghcr.io/gamerson/lcd-53904/liferay-sample-global-css-1-descriptor
+    enabled: false
     values:
       network:
         enabled: true
@@ -8,9 +9,11 @@ clientExtensions:
     version: 1.0.0.171498b439d2
   liferay-sample-batch:
     descriptor: oci://ghcr.io/gamerson/lcd-53904/liferay-sample-batch-descriptor
+    enabled: false
     version: 1.0.2
   liferay-sample-custom-element-2:
     descriptor: oci://ghcr.io/gamerson/lcd-53904/liferay-sample-custom-element-2-descriptor
+    enabled: false
     values:
       network:
         enabled: true
@@ -18,6 +21,7 @@ clientExtensions:
     version: 1.0.2
   liferay-sample-etc-cron:
     descriptor: oci://ghcr.io/gamerson/lcd-53904/liferay-sample-etc-cron-descriptor
+    enabled: false
     values:
       workload:
         kind: CronJob
@@ -25,6 +29,7 @@ clientExtensions:
     version: 1.0.2
   liferay-sample-etc-node:
     descriptor: oci://ghcr.io/gamerson/lcd-53904/liferay-sample-etc-node-descriptor
+    enabled: false
     values:
       imagePullSecrets:
         - name: ghcr-pull
@@ -36,6 +41,7 @@ clientExtensions:
     version: 1.0.3
   liferay-sample-etc-spring-boot:
     descriptor: oci://ghcr.io/gamerson/lcd-53904/liferay-sample-etc-spring-boot-descriptor
+    enabled: false
     values:
       network:
         enabled: true

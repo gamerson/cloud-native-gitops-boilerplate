@@ -7,6 +7,9 @@ package com.liferay.sample;
 
 import com.liferay.client.extension.util.spring.boot3.BaseRestController;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import org.json.JSONObject;
 
 import org.springframework.http.HttpStatus;
@@ -38,10 +41,12 @@ public class ObjectAction2RestController extends BaseRestController {
 			"modelDTOAccount");
 
 		if (modelDTOAccountJSONObject == null) {
+			_log.info("success");
+
 			return new ResponseEntity<>(json, HttpStatus.OK);
 		}
 
-		return new ResponseEntity<>(
+		ResponseEntity<String> responseEntity = new ResponseEntity<>(
 			patch(
 				"Bearer " + jwt.getTokenValue(),
 				new JSONObject(
@@ -55,6 +60,13 @@ public class ObjectAction2RestController extends BaseRestController {
 				).build(
 				).toUri()),
 			HttpStatus.OK);
+
+		_log.info("success");
+
+		return responseEntity;
 	}
+
+	private static final Log _log = LogFactory.getLog(
+		ObjectAction2RestController.class);
 
 }

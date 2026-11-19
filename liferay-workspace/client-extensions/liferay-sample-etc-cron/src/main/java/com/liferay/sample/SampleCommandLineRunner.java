@@ -81,7 +81,7 @@ public class SampleCommandLineRunner
 				).toUri());
 
 			if ((dadJoke != null) && _log.isInfoEnabled()) {
-				_log.info("Dad joke: " + dadJoke);
+				_log.info("Dad joke, from the GitHub Actions build: " + dadJoke);
 			}
 		}
 		catch (Exception exception) {

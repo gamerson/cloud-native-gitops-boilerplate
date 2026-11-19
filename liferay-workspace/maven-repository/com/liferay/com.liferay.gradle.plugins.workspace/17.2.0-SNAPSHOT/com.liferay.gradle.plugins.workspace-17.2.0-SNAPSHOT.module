@@ -27,11 +27,11 @@
         {
           "name": "com.liferay.gradle.plugins.workspace-17.2.0-SNAPSHOT.jar",
           "url": "com.liferay.gradle.plugins.workspace-17.2.0-SNAPSHOT.jar",
-          "size": 427207,
-          "sha512": "fae626689d790187ac7a193af6e474c85f0939fe097c233b175729a93c93c2db412bddfa8d6c0d630dc8249fe7a23fd190de9cc7ff52ca6593c946687e4da507",
-          "sha256": "a29d74b7b3cbe6360198efe4f4b158caa63c3892c5dd59627950f3d68a5a0024",
-          "sha1": "4346eff6a3f44f982b9a116b9b4974c57a0c07c4",
-          "md5": "b9ca7e173d875bc2d1981716b50ed650"
+          "size": 427362,
+          "sha512": "a8e22bb2a40d9324b1312fe7d780f5783d2895fef7798b1a593c1eb9a448a0bb6fd0b65a66186bb7d91baef9b7808b4cb6ef09969e6f5160e60ad2cd8ad527ae",
+          "sha256": "59e17ca35bd1d31ad6c348ff4a761ce7bda7b69e95201a35be76fd3b01179ca8",
+          "sha1": "99557232c69033a12befded0ac24053f7eae98e7",
+          "md5": "9873f82767cbb542ae9d75445b9acaaf"
         }
       ]
     },
@@ -169,11 +169,11 @@
         {
           "name": "com.liferay.gradle.plugins.workspace-17.2.0-SNAPSHOT.jar",
           "url": "com.liferay.gradle.plugins.workspace-17.2.0-SNAPSHOT.jar",
-          "size": 427207,
-          "sha512": "fae626689d790187ac7a193af6e474c85f0939fe097c233b175729a93c93c2db412bddfa8d6c0d630dc8249fe7a23fd190de9cc7ff52ca6593c946687e4da507",
-          "sha256": "a29d74b7b3cbe6360198efe4f4b158caa63c3892c5dd59627950f3d68a5a0024",
-          "sha1": "4346eff6a3f44f982b9a116b9b4974c57a0c07c4",
-          "md5": "b9ca7e173d875bc2d1981716b50ed650"
+          "size": 427362,
+          "sha512": "a8e22bb2a40d9324b1312fe7d780f5783d2895fef7798b1a593c1eb9a448a0bb6fd0b65a66186bb7d91baef9b7808b4cb6ef09969e6f5160e60ad2cd8ad527ae",
+          "sha256": "59e17ca35bd1d31ad6c348ff4a761ce7bda7b69e95201a35be76fd3b01179ca8",
+          "sha1": "99557232c69033a12befded0ac24053f7eae98e7",
+          "md5": "9873f82767cbb542ae9d75445b9acaaf"
         }
       ]
     }

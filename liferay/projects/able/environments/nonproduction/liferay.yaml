@@ -1,10 +1,9 @@
 clientExtensions:
   liferay-sample-batch:
     enabled: true
-  # Split-namespace test: a hand-made Argo CD Application runs etc-cron in
-  # liferay-able-cx-nonproduction instead.
   liferay-sample-etc-cron:
-    enabled: false
+    enabled: true
+    separateNamespace: true
   liferay-sample-global-css-1:
     enabled: true
     values:

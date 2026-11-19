@@ -1,4 +1,7 @@
 clientExtensions:
+  liferay-sample-global-css-1:
+    descriptor: oci://ghcr.io/gamerson/lcd-53904/liferay-sample-global-css-1-descriptor
+    version: 1.0.0.171498b439d2
   liferay-sample-batch:
     descriptor: oci://ghcr.io/gamerson/lcd-53904/liferay-sample-batch-descriptor
     version: 1.0.2

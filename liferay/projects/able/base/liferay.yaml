@@ -26,12 +26,14 @@ clientExtensions:
   liferay-sample-etc-node:
     descriptor: oci://ghcr.io/gamerson/lcd-53904/liferay-sample-etc-node-descriptor
     values:
+      imagePullSecrets:
+        - name: ghcr-pull
       network:
         enabled: true
         endpointRef: runray.xyz
       workload:
         containerPort: 3001
-    version: 1.0.2
+    version: 1.0.3
   liferay-sample-etc-spring-boot:
     descriptor: oci://ghcr.io/gamerson/lcd-53904/liferay-sample-etc-spring-boot-descriptor
     values:

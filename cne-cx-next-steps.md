@@ -45,13 +45,16 @@ Use a token that can only read packages.
 
 ## Client Extensions In A Separate Namespace
 
-**Status:** works for client extensions without a route; on the release branch, not yet in master.
+**Status:** in review as cloudnative-team/liferay-portal#606 (LCD-53966), and on the `release/LCD-53904` release candidate.
 
-An environment's `liferay.yaml` can set `clientExtensionsSeparateNamespace: true`, or one entry can set `separateNamespace: true` (an entry's value wins). The ApplicationSet then:
+An environment's `liferay.yaml` can set `clientExtensionsSeparateNamespace: true`, or one entry can set `separateNamespace: true` or `false` (an entry's value wins). The ApplicationSet then:
 
-- deploys into `liferay-<project>-cx-<environment>`, a name derived from the environment's path, so a `liferay.yaml` cannot place client extensions in another environment's namespace;
-- creates that namespace with the `pod-security.kubernetes.io/enforce: restricted` label;
-- points the chart at DXP's namespace through `clientExtension.dxpNamespace`, which makes the chart add a RoleBinding for the DXP operator.
+- deploys into `liferay-<project>-cx-<environment>`, a name derived from the environment's path, so a `liferay.yaml` cannot name another namespace;
+- creates that namespace with the `pod-security.kubernetes.io/enforce: restricted` and `liferay.com/observable: "true"` labels, so the observability stack still collects from it;
+- points the chart at DXP's namespace through `clientExtension.dxpNamespace`, which makes the chart add a RoleBinding for the DXP operator, whose subject the ApplicationSet pins to the platform's operator;
+- routes client extensions that serve HTTP through DXP's Gateway, which accepts routes from the separate namespace as well as its own.
+
+The separate namespace is only used when neither the project id nor the environment id contains a hyphen. A name joined from hyphenated ids can equal another environment's namespace (project `able`, environment `cx-prod` and project `able-cx`, environment `prod` both give `liferay-able-cx-prod`), so in that case the client extensions stay in DXP's namespace and the Gateway admits only its own.
 
 DXP must still grant the namespace, in the same `liferay.yaml`:
 
@@ -65,13 +68,16 @@ liferay-default:
 
 Until it does, the ClientExtension reports `NamespaceNotPermitted`, with a message that says what to add. Revoking a namespace later stops delivery but leaves what was already delivered, and the workload keeps running.
 
-Tested by hand on `etc-cron`: the operator delivered its configuration to DXP's namespace and mirrored DXP's metadata ConfigMaps into the client extension namespace, and a run from there got its OAuth2 token and called DXP and the Spring Boot backend.
+**Lifecycle:**
+
+- Turning the setting on for a running client extension deletes it from DXP's namespace and creates it in the separate one. Expect a short outage, and a new OAuth2 client ID for its applications: a backend that resolved client IDs at startup, such as the Spring Boot sample's `liferay.oauth.application.external.reference.codes`, rejects the moved client extension's tokens with `401` until it restarts.
+- Turning it off moves the client extensions back but leaves the separate namespace behind, since Argo CD never deletes a namespace it created through `CreateNamespace`. Delete it by hand.
+- A private registry's pull Secret has to exist in the separate namespace too.
 
 **Next:**
 
-1. **Routed client extensions.** The environment's Gateway accepts routes only from its own namespace (`allowedRoutes.namespaces.from: Same`), and the chart's HTTPRoute has no `parentRef` namespace. This needs a namespace selector on the Gateway listeners in the infrastructure composition, such as a `liferay.com/gateway: <project>-<environment>` label that the ApplicationSet puts on the namespace it creates, and a `network.gatewayNamespace` value in the chart that the ApplicationSet sets to DXP's namespace.
-1. **Per-team namespaces,** if they are needed: the same derived pattern with a suffix, such as `liferay-<project>-cx-<environment>-<team>`, never a namespace named in full.
-1. **Moving a client extension recreates its OAuth2 application with a new client ID.** A backend that resolved client IDs at startup, such as the Spring Boot sample's `liferay.oauth.application.external.reference.codes`, rejects the moved client extension's tokens with `401` until it restarts. Document this, or make the sample's client library resolve the IDs again.
+1. **Hyphenated ids.** Validating project and environment ids as `^[a-z0-9]+$` in the infrastructure XRD would remove the ambiguity in both the DXP and the client extension namespace names, but it is a breaking change for any customer that already uses a hyphen.
+1. **Per-team namespaces,** if they are needed: the same derived pattern with a suffix, never a namespace named in full.
 
 ## Backends On The Cluster Network Only
 

@@ -10,16 +10,18 @@ Step-by-step instructions to stand up a Liferay Cloud Native (CNE) environment o
 | `liferay-sample-etc-spring-boot` | `service` | Deployment | Spring Boot backend: a REST endpoint and two object actions |
 | `liferay-sample-etc-cron` | `service` | CronJob | A scheduled job that calls DXP's headless API every 15 minutes |
 
+Step 11 then adds a sixth, `liferay-sample-global-css-1`, live, to show the whole path for a new client extension.
+
 The flow is: Workspace publishes each client extension as a workload image plus a small descriptor image. The gitops repository's `liferay.yaml` lists the descriptors and versions. Argo CD turns each entry into an Application, the `liferay-client-extension` chart deploys it, and the DXP operator delivers its configuration into DXP.
 
-This was written from a working run of `release/LCD-53904` on `cloudnative-team/liferay-portal` (commit `ee802bc`, AWS bootstrap `4.0.1`) in November 2026. That branch combines cloudnative-team#599, cloudnative-team#600, and liferay-devtools#1091.
+This was written from a working run of `release/LCD-53904` on `cloudnative-team/liferay-portal` (commit `c526abe`, AWS bootstrap `4.0.1`) in November 2026. That branch is brianchandotcom/master, which includes cloudnative-team#600, plus cloudnative-team#599 and liferay-devtools#1091.
 
 ## Variables
 
 | Variable | Meaning | Reference value |
 | --- | --- | --- |
 | `${RELEASE_BRANCH}` | Release branch on `cloudnative-team/liferay-portal` | `release/LCD-53904` |
-| `${RC_SHA7}` | First 7 characters of the release branch commit CI built | `ee802bc` |
+| `${RC_SHA7}` | First 7 characters of the release branch commit CI built | `c526abe` |
 | `${BOOTSTRAP_VERSION}` | `liferay-aws-bootstrap` in `cloud/scripts/versions.json` on that commit | `4.0.1` |
 | `${ACCOUNT_ID}` | AWS account | (yours) |
 | `${REGION}` | AWS region | `ca-central-1` |
@@ -28,7 +30,7 @@ This was written from a working run of `release/LCD-53904` on `cloudnative-team/
 | `${CERT_SLUG}` | The domain with the dots removed, used in secret names | `runrayxyz` |
 | `${GITOPS_REPO}` | Your copy of this gitops repository | `https://github.com/gamerson/cloud-native-gitops-boilerplate` |
 | `${REGISTRY}` | Registry path you push the client extensions to | `ghcr.io/gamerson/lcd-53904` |
-| `${VERSION}` | Version you publish the client extensions at | `1.0.0` |
+| `${VERSION}` | A client extension's version, from its own `gradle.properties` | `1.0.2` |
 | `${NS}` | Environment namespace | `liferay-able-nonproduction` |
 
 The project is `able` and the environment is `nonproduction` throughout, as in this repository.
@@ -320,9 +322,42 @@ liferay-default:
 - `LIFERAY_WEB_PERIOD_SERVER_PERIOD_PROTOCOL=https`: the gateway redirects HTTP to HTTPS, so DXP must advertise `https` in the metadata it hands client extensions, or their calls back to DXP get a `301`.
 - `resources`: EKS Auto Mode sizes the node from the request, and the chart's 4Gi default gets a node that cannot fit the 12Gi limit.
 - `startupProbe.failureThreshold: 240`: the first boot against an empty database runs past the chart's default 15 minute startup budget.
-- This repository's copy also pins custom-element-2 to a digest tag (`version: 0.6.0.8862529eb926`) to show pinning. Delete that `version:` line so the base version applies, or replace it with one of your own `${VERSION}.<digest>` tags. The `overlay` block is not needed for this demo.
+- This repository's copy also pins custom-element-2 and etc-spring-boot to digest tags in this file, to show an environment overriding `base` (see below). Delete those `version:` lines so the base versions apply, or replace them with digest tags from your own publish runs. The `overlay` block is not needed for this demo.
 
-Commit and push. Argo CD picks the changes up after the bootstrap in Step 5, and again within about three minutes of any later push.
+Commit and push. Argo CD picks the changes up after the bootstrap in Step 5, and within about three minutes of any later push, or at once with the commands in [Make Argo CD Pick Up A Change Now](#make-argo-cd-pick-up-a-change-now).
+
+### How Base And Environment Values Combine
+
+For each environment, the client extension ApplicationSet reads the environment's `liferay.yaml` and its project's `base/liferay.yaml`, and merges them key by key with the environment winning. Each entry under `clientExtensions` then becomes one Application. So an environment can override just one field of an entry and inherit the rest. For example, this repository runs etc-spring-boot at a newer, pinned build in nonproduction only:
+
+```yaml
+# base/liferay.yaml: every environment's default
+  liferay-sample-etc-spring-boot:
+    descriptor: oci://ghcr.io/gamerson/lcd-53904/liferay-sample-etc-spring-boot-descriptor
+    values:
+      network:
+        enabled: true
+        endpointRef: runray.xyz
+      workload:
+        containerPort: 58081
+    version: 1.0.3
+
+# environments/nonproduction/liferay.yaml: wins in nonproduction
+  liferay-sample-etc-spring-boot:
+    values:
+      clientExtension:
+        domain: etc-spring-boot-able-nonproduction.runray.xyz
+    version: 1.0.5.d59b3753e64c
+```
+
+Nonproduction runs `1.0.5.d59b3753e64c`, with `descriptor`, `network`, and `containerPort` from `base` and `domain` from nonproduction. Any other environment without its own `version` runs `1.0.3`. Check what each environment really runs with:
+
+```bash
+kubectl get clientextensions --all-namespaces \
+	--output custom-columns=NAMESPACE:.metadata.namespace,NAME:.metadata.name,VERSION:.spec.version,PHASE:.status.phase
+```
+
+`enabled: false` in an environment removes an entry there, as `uat` and `production` do for every sample.
 
 ## Step 5: Bootstrap AWS From The Release Branch
 
@@ -552,7 +587,7 @@ What to see:
 
 - **Spring Boot:** `ObjectAction1RestController` logs the entry's old and new `field1` values, and a validated JWT whose audience is `https://etc-spring-boot-able-nonproduction.${DOMAIN}`. DXP signed the call for that client extension's OAuth2 application, and the backend accepted it through the gateway.
 - **Node:** it logs that your user is authorized, and the `objectEntryDTOSample` payload.
-- **Expected error:** Spring Boot's `ObjectAction2RestController` throws a `JSONException` about `JSONObject["modelDTOAccount"]`. That handler is written for Account updates, and the sample also wires it to `Sample`. The request arrived with a valid token, so this is a bug in the sample, not in the deployment.
+- **Spring Boot action 2:** `ObjectAction2RestController` logs `success`. It is written for Account updates; for any other object it returns the payload unchanged. This repository's copy of the sample fixes a bug that the upstream sample in liferay-portal still has: it read the missing `modelDTOAccount` key with `getJSONObject`, which throws a `JSONException` instead of returning null, so every `Sample` update failed there.
 
 The same can be done without the UI by calling `/o/c/samples` with a signed-in session. Basic authentication is refused with `403`.
 
@@ -586,11 +621,11 @@ The cron sample is a Spring Boot command-line app. Each run gets an OAuth2 token
 	```
 	Updated OAuth2 access token at <time>
 	There are 0 message board threads in the Guest site at https://liferay-able-nonproduction.runray.xyz
-	Dad joke: <a joke>
+	Dad joke, from the GitHub Actions build: <a joke>
 	[INFO  tini (1)] Main child exited normally (with status '0')
 	```
 
-	Two `Unable to get client ID: 400 Bad Request` warnings near the start are normal for this sample. They appear on every run, and the run goes on to get its token.
+	The `from the GitHub Actions build` wording is a change made in this repository's copy of the sample, to prove a code change makes the whole trip from a push to the cluster. Two `Unable to get client ID: 400 Bad Request` warnings near the start are normal for this sample. They appear on every run, and the run goes on to get its token.
 
 1. Show what the operator reports:
 
@@ -617,9 +652,196 @@ clientExtensions:
         schedule: "0 * * * *"
 ```
 
+## Step 11: Add A Client Extension
+
+This adds `liferay-sample-global-css-1`, a global CSS client extension that puts blue text reading "Liferay Sample Global CSS 1" at the top of each page body, and shows every place a new client extension touches.
+
+**Beforehand,** so it does not fail live:
+
+- If the packages `<path>/liferay-sample-global-css-1` and `<path>/liferay-sample-global-css-1-descriptor` already exist (for example from an earlier publish from your machine), give the gitops repository **Write** under each one's **Manage Actions access**, and make both public. If they do not exist, the workflow creates them in Step 11.2 and you make them public right after.
+- Create a DNS record for `global-css-1-able-nonproduction.${DOMAIN}` pointing at the nonproduction gateway's load balancer (the same target as the other `*-able-nonproduction` records).
+
+**Live:**
+
+1. Copy the sample in, without build output, and give it its own version:
+
+	```bash
+	rsync --archive --exclude build \
+		<liferay-portal checkout>/workspaces/liferay-sample-workspace/client-extensions/liferay-sample-global-css-1 \
+		liferay-workspace/client-extensions/
+
+	echo "version=1.0.0" > liferay-workspace/client-extensions/liferay-sample-global-css-1/gradle.properties
+	```
+
+1. Commit and push. The **Publish Client Extensions** run publishes only `global-css-1`, because every other client extension's version is already in the registry. Its summary lists the descriptor's digest tag and a `liferay.yaml` snippet:
+
+	```yaml
+	clientExtensions:
+	  liferay-sample-global-css-1:
+	    descriptor: oci://ghcr.io/gamerson/lcd-53904/liferay-sample-global-css-1-descriptor
+	    version: 1.0.0.171498b439d2
+	```
+
+1. Add it to the gitops values. A new client extension touches four files:
+
+	- `base/liferay.yaml`: the snippet, plus a route, since this one is served over HTTP:
+
+		```yaml
+		  liferay-sample-global-css-1:
+		    descriptor: oci://ghcr.io/gamerson/lcd-53904/liferay-sample-global-css-1-descriptor
+		    values:
+		      network:
+		        enabled: true
+		        endpointRef: runray.xyz
+		    version: 1.0.0.171498b439d2
+		```
+
+	- `environments/nonproduction/liferay.yaml`: its hostname:
+
+		```yaml
+		  liferay-sample-global-css-1:
+		    values:
+		      clientExtension:
+		        domain: global-css-1-able-nonproduction.runray.xyz
+		```
+
+	- `environments/uat/liferay.yaml` and `environments/production/liferay.yaml`: turn it off, since those environments run no DXP:
+
+		```yaml
+		  liferay-sample-global-css-1:
+		    enabled: false
+		```
+
+	Without the route and domain it deploys and reports `Ready` but has no URL, so the browser cannot load the stylesheet. Without the `enabled: false` entries, it also gets Applications in `uat` and `production` that stay `Pending`.
+
+1. Push, and refresh Argo CD at once ([Make Argo CD Pick Up A Change Now](#make-argo-cd-pick-up-a-change-now)). Watch it come up:
+
+	```bash
+	kubectl get clientextensions --namespace "${NS}" --watch
+	```
+
+	It shows `Ready` with `URL` `https://global-css-1-able-nonproduction.${DOMAIN}`.
+
+1. The descriptor's configuration names the stylesheet file, which the client extension's own Deployment serves:
+
+	```bash
+	curl --silent "https://global-css-1-able-nonproduction.${DOMAIN}/global.<hash>.css"
+	```
+
+	The hashed name is in the descriptor's `typeSettings` (`url=global.<hash>.css`); see Step 12. Load a DXP page and look for the blue text. The configuration has `scope=company`; if the text does not appear, attach the client extension in the pages' **Design** configuration, under the CSS client extensions.
+
+## Step 12: Show What Is In A Descriptor
+
+A descriptor image holds one file and nothing else: no operating system and nothing to run. Extract one into a folder:
+
+```bash
+R="${REGISTRY}/liferay-sample-etc-spring-boot-descriptor:1.0.5.d59b3753e64c"
+
+docker pull "${R}"
+
+id=$(docker create "${R}" x)
+
+docker cp "${id}:/client-extension-descriptor.json" - | tar --extract --to-stdout | jq . > client-extension-descriptor.json
+
+docker rm "${id}"
+```
+
+It has four parts under `descriptor`:
+
+- `descriptorVersion`: the format version, `1`. The chart refuses any other.
+- `type`: `batch`, `configuration`, `frontend`, or `service`. It decides the workload: a Job for `batch`, none for `configuration`, and a Deployment otherwise, unless `values.workload.kind` says otherwise (such as `CronJob`).
+- `configs`: the DXP configurations from the project's `client-extension.yaml`, keyed `<configuration class>~<client extension id>`, such as the OAuth2 application, object actions, and workflow actions. The DXP operator delivers these into DXP.
+- `image`: the workload image the descriptor was published with:
+
+	```json
+	"image": {
+	  "digest": "sha256:0d4713a8f29b5fb1e2e0d435aafde845333fd50c5b9903d89d40ca81ee0962ba",
+	  "repository": "ghcr.io/gamerson/lcd-53904/liferay-sample-etc-spring-boot",
+	  "tag": "1.0.5"
+	}
+	```
+
+The workload image itself is not inside the descriptor; the descriptor only points at it. The chain is:
+
+1. The Application's values file is `cxdescriptor://<registry>/<name>-descriptor:<version>`. The `cxdescriptor` Helm plugin in Argo CD's repo server pulls that image and hands `client-extension-descriptor.json` to Helm as a values file, so it becomes `.Values.descriptor`.
+1. The chart's `liferay-client-extension.image` helper builds the container image from `.Values.descriptor.image` as `<repository>:<tag>@<digest>`. `image.repository` and `image.tag` in `values` override it, for testing a different image.
+1. The kubelet pulls the workload image by that digest:
+
+	```bash
+	kubectl get deployment liferay-sample-etc-spring-boot --namespace "${NS}" \
+		--output jsonpath='{.spec.template.spec.containers[0].image}'
+	```
+
+	```
+	ghcr.io/gamerson/lcd-53904/liferay-sample-etc-spring-boot:1.0.5@sha256:0d4713a8...
+	```
+
+So a descriptor's digest tag, such as `1.0.5.d59b3753e64c`, pins both the configuration and, through the digest inside it, the exact workload image.
+
+## Make Argo CD Pick Up A Change Now
+
+The ApplicationSets read the gitops repository every three minutes. To make them read it now:
+
+```bash
+kubectl annotate applicationset --all --namespace argocd-system \
+	argocd.argoproj.io/application-set-refresh=true --overwrite
+```
+
+The ApplicationSet controller reconciles within a couple of seconds and removes the annotation itself. New Applications are created and synced at once, and changed ones are updated.
+
+To also make every Application re-render its manifests, for example after republishing an image under a tag they already use, request a hard refresh, which also clears Argo CD's manifest cache:
+
+```bash
+kubectl annotate applications --all --namespace argocd-system \
+	argocd.argoproj.io/refresh=hard --overwrite
+```
+
+The Argo CD UI's **Refresh**, **Hard Refresh** on an Application does the same for one Application. `argocd.argoproj.io/refresh` on an ApplicationSet does nothing; it is only for Applications.
+
 ## Optional: Ship A New Version
 
-To show an upgrade, change something in a sample, raise the `version` in its `gradle.properties`, push, and change that entry's `version` in `liferay.yaml`. Argo CD rolls out the new build, and the ClientExtension's `VERSION` column follows. To pin one environment to an exact build, use the digest-suffixed tag the publish printed, such as `1.0.1.8862529eb926`.
+To show an upgrade, change something in a sample, raise the `version` in its `gradle.properties`, push, and change that entry's `version` in `liferay.yaml`. Argo CD rolls out the new build, and the ClientExtension's `VERSION` column follows. To pin one environment to an exact build, use the digest-suffixed tag the publish printed, such as `1.0.5.d59b3753e64c`, in that environment's `liferay.yaml`.
+
+## Next Steps After This Release
+
+These are not covered by this release's testing. The notes below come from reading the charts and the operator on `${RC_SHA7}`, not from running them.
+
+### Client Extensions In A Different Namespace From DXP
+
+**Goal:** DXP runs in one namespace and its client extensions in another, for example to give a team its own namespace for its client extensions.
+
+**What exists:**
+
+- The `liferay-client-extension` chart has `clientExtension.dxpNamespace`. When it differs from the release's namespace, the chart sets `spec.dxpNamespace` on the ClientExtension and adds a RoleBinding that lets the DXP operator deliver into the client extension's namespace.
+- The operator resolves the DXP namespace from `spec.dxpNamespace`. It reports `DxpNamespaceNotFound` when that namespace does not exist, and `NamespaceNotPermitted` unless the DXP namespace's `client-extension-policy` ConfigMap lists the client extension's namespace.
+- The `liferay-default` chart writes that ConfigMap from `clientExtensions.policy.allowedNamespaces`.
+
+**What is missing:**
+
+- The client extension ApplicationSet always deploys into `liferay-<project>-<environment>`, the DXP namespace, and never sets `clientExtension.dxpNamespace`. So a `liferay.yaml` entry cannot ask for another namespace yet. The ApplicationSet needs a per-entry namespace, something to create that namespace, and the AppProject must allow it as a destination.
+- DXP's NetworkPolicy has to admit traffic from the client extension namespace, and the client extension namespace needs the same pod security labels.
+
+**To test:** install the chart by hand into a second namespace with `clientExtension.dxpNamespace=${NS}` and the DXP chart's `allowedNamespaces` set, and check that the ClientExtension reaches `Ready`, that its configuration appears in DXP, that the `lxc-dxp-metadata` and `ext-init` ConfigMaps the pod mounts exist in its own namespace, and that object actions and the backends' calls to DXP work across the namespaces. Then check that an unlisted namespace gets `NamespaceNotPermitted`.
+
+### Backends On The Cluster Network Only
+
+**Goal:** a backend client extension that only DXP calls, such as one with object or workflow actions and no browser traffic, gets no public route and no DNS record, and DXP calls it on its cluster address, `http://<service>.<namespace>.svc.cluster.local:<port>`.
+
+**What exists:**
+
+- The chart renders a Service for a client extension that runs as a Deployment (unless `service.enabled` says otherwise), and renders its HTTPRoute only when `network.enabled` is true.
+- DXP builds a client extension's address from `.serviceScheme` and `.serviceAddress` in its configurations. Workspace publishes the values in `client-extension.yaml`, such as `http` and `localhost:58081`.
+- `clientExtension.domain` is passed by the operator to DXP as the client extension's main domain (an annotation on the ConfigMap it delivers), and reported as `https://<domain>` in the ClientExtension's status. In Step 9, DXP calls the object actions through that domain: the JWT audience is `https://etc-spring-boot-able-nonproduction.${DOMAIN}`. How DXP combines the main domain with `.serviceAddress` was not checked.
+- The chart merges `clientExtension.configs` from `values` over the descriptor's `configs`.
+
+**What to try:** leave out `network` and `clientExtension.domain`, and override `.serviceScheme` and `.serviceAddress` through `values.clientExtension.configs` with the Service's cluster address. Then check that:
+
+- the object actions still fire and reach the backend;
+- the JWT audience DXP signs (now the cluster address) is the one the backend accepts;
+- the ClientExtension's status is sensible without a URL;
+- DXP's NetworkPolicy lets it reach the client extension's pod.
+
+If overriding each configuration is clumsy, a chart or operator setting such as `clientExtension.internal: true`, which sets the address from the Service, would be the follow-up. That work would not apply to a client extension the browser calls, such as custom-element-2's backends, which need a public route.
 
 ## Teardown
 

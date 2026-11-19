@@ -123,6 +123,7 @@ jobs:
                             if [[ -n "${name}" ]]
                             then
                                 echo "  ${name}:"
+                                echo "    descriptor: oci://${descriptor}"
                                 echo "    version: ${pinned_version}"
                             fi
                         done <<< "${descriptors}"
@@ -143,6 +144,12 @@ jobs:
                                 echo "${descriptor}:${pinned_version}"
                             done <<< "${descriptors}"
 
+                            echo '```'
+                            echo ""
+                            echo "To deploy this build, merge this into \`clientExtensions\` in a \`liferay.yaml\`, in \`base\` for every environment or in one environment's. A new client extension also needs its \`values\`, such as its network and domain."
+                            echo ""
+                            echo '```yaml'
+                            cat client-extension-versions.yaml
                             echo '```'
                         fi
 

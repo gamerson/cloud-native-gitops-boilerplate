@@ -33,7 +33,7 @@ clientExtensions:
         endpointRef: runray.xyz
       workload:
         containerPort: 58081
-    version: 1.0.2
+    version: 1.0.3
 
 liferay-default:
   clientExtensions:

@@ -98,8 +98,9 @@ Publish from your machine (below) or from GitHub Actions ([Publish From GitHub A
 
 	```properties
 	liferay.workspace.client.extension.registry=${REGISTRY}
-	liferay.workspace.client.extension.version=${VERSION}
 	```
+
+	Each client extension's version is already in its own `liferay-workspace/client-extensions/<name>/gradle.properties` (`version=${VERSION}`).
 
 1. Log in to the registry. For `ghcr.io`, use a personal access token with `write:packages`:
 
@@ -135,11 +136,24 @@ Publish from your machine (below) or from GitHub Actions ([Publish From GitHub A
 
 ### Publish From GitHub Actions
 
-`.github/workflows/publish-client-extensions.yaml` runs the same `publishClientExtension` on a GitHub runner, logged in to `ghcr.io` as the workflow with its `GITHUB_TOKEN`, so no personal token is needed.
+Each client extension's version is in its own `liferay-workspace/client-extensions/<name>/gradle.properties`:
 
-1. Set the registry in `liferay-workspace/gradle.properties` to `ghcr.io/<owner of your gitops repository>/<path>` and push. The workflow can push only to packages under the account that owns the repository.
-1. In the repository's **Actions** tab, choose **Publish Client Extensions**, then **Run workflow**, and enter the version.
-1. The run's summary lists each descriptor under its digest tag, such as `ghcr.io/<owner>/<path>/liferay-sample-batch-descriptor:1.0.0.92ca470377d5`. That tag, `<version>.<12 hex>`, is all a client extension needs: used as its `version` in an environment's `liferay.yaml`, it pins that exact build, and the descriptor pins its workload image by digest. The same versions are attached to the run as a `liferay.yaml` fragment in the `client-extension-versions-<version>` artifact; fetch it with `gh run download <run-id> --name client-extension-versions-<version>`. The summary also links each package's settings page.
+```properties
+version=1.0.2
+```
+
+Every client extension needs one. Without it, publishing fails with `Set the "liferay.workspace.client.extension.registry" property and a version to publish "<name>"`.
+
+`.github/workflows/publish-client-extensions.yaml` runs on every push to `master` that changes `liferay-workspace/`, logged in to `ghcr.io` with the workflow's own `GITHUB_TOKEN`, so no personal token is needed. It publishes every client extension whose version is not in the registry yet and leaves the rest alone. So:
+
+- to add a client extension, copy its project into `liferay-workspace/client-extensions/`, give it a `gradle.properties` with its version, and push;
+- to ship a change, raise that client extension's version in the same commit as the change.
+
+A version that is already published is never published again, because an environment that uses it would silently get different code. A push that changes code without raising a version publishes nothing, and the run's summary lists those client extensions under **Already Published**.
+
+1. Set the registry in `liferay-workspace/gradle.properties` to `ghcr.io/<owner of your gitops repository>/<path>`. The workflow can push only to packages under the account that owns the repository.
+1. Push. The run appears in the repository's **Actions** tab under **Publish Client Extensions**. **Run workflow** there runs the same check by hand.
+1. The run's summary lists each newly published descriptor under its digest tag, such as `ghcr.io/<owner>/<path>/liferay-sample-batch-descriptor:1.0.0.92ca470377d5`. That tag, `<version>.<12 hex>`, is all a client extension needs: used as its `version` in an environment's `liferay.yaml`, it pins that exact build, and the descriptor pins its workload image by digest. The same versions are attached to the run as a `liferay.yaml` fragment in the `client-extension-versions-<run number>` artifact. The summary also links each new package's settings page.
 
 If a package already exists because you published it from your machine first, the workflow cannot push to it until you open that package's settings, find **Manage Actions access**, click **Add Repository**, and give the gitops repository the **Write** role.
 
@@ -160,7 +174,7 @@ docker pull "${REGISTRY}/liferay-sample-batch-descriptor:${VERSION}"
 
 ### Publish A New Build
 
-To publish a new build later, raise `${VERSION}` (or pass `-Pliferay.workspace.client.extension.version=<version>`), publish, and change the versions in `liferay.yaml`.
+To publish a new build later, raise the client extension's `version` in its `gradle.properties`, publish (push, or `./gradlew publishClientExtension` from your machine), and change its version in `liferay.yaml`.
 
 ## Step 4: Edit The Gitops Values
 
@@ -605,7 +619,7 @@ clientExtensions:
 
 ## Optional: Ship A New Version
 
-To show an upgrade, change something in a sample, publish with a new version (`./gradlew publishClientExtension -Pliferay.workspace.client.extension.version=1.0.1`), and change that entry's `version` in `liferay.yaml`. Argo CD rolls out the new build, and the ClientExtension's `VERSION` column follows. To pin one environment to an exact build, use the digest-suffixed tag the publish printed, such as `1.0.1.8862529eb926`.
+To show an upgrade, change something in a sample, raise the `version` in its `gradle.properties`, push, and change that entry's `version` in `liferay.yaml`. Argo CD rolls out the new build, and the ClientExtension's `VERSION` column follows. To pin one environment to an exact build, use the digest-suffixed tag the publish printed, such as `1.0.1.8862529eb926`.
 
 ## Teardown
 

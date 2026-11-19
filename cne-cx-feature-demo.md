@@ -65,23 +65,7 @@ It contains:
 - `.github/workflows/publish-client-extensions.yaml`: a GitHub Actions workflow that publishes the client extensions (Step 2).
 - `cne-cx-feature-demo.md`: this document.
 
-The Workspace plugin that publishes a client extension as an image plus a descriptor is not released yet. `liferay-workspace/settings.gradle` loads `com.liferay.gradle.plugins.workspace` `17.2.0-SNAPSHOT` from `liferay-workspace/maven-repository/`, where a build from `${RELEASE_BRANCH}` is checked in, so nothing needs to be built first. To refresh it from the branch:
-
-```bash
-cd <liferay-portal checkout>
-
-git fetch https://github.com/cloudnative-team/liferay-portal "${RELEASE_BRANCH}"
-git worktree add ../wt-cne-cx-demo FETCH_HEAD
-
-cd ../wt-cne-cx-demo/modules/sdk/gradle-plugins-workspace
-
-../../../gradlew publishToMavenLocal -Psnapshot -x test
-
-cp ~/.m2/repository/com/liferay/com.liferay.gradle.plugins.workspace/17.2.0-SNAPSHOT/com.liferay.gradle.plugins.workspace-17.2.0-SNAPSHOT.{jar,module,pom} \
-	<gitops repo>/liferay-workspace/maven-repository/com/liferay/com.liferay.gradle.plugins.workspace/17.2.0-SNAPSHOT/
-```
-
-Without `-Psnapshot`, the build publishes a release version, `17.2.0`, instead of the snapshot.
+The Workspace plugin that publishes a client extension as an image plus a descriptor is not released yet. A snapshot of it, `com.liferay.gradle.plugins.workspace` `17.2.0-SNAPSHOT`, is checked in under `liferay-workspace/maven-repository/`, and `liferay-workspace/settings.gradle` loads it from there, so nothing needs to be built first.
 
 ## Step 2: Publish The Client Extensions
 

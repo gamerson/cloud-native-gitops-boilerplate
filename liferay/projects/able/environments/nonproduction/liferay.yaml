@@ -3,7 +3,7 @@ clientExtensions:
     values:
       clientExtension:
         domain: custom-element-2-able-nonproduction.runray.xyz
-    version: 1.0.0.e5c5e4e7c8f1
+    version: 1.0.2.8c080d14bb0e
   liferay-sample-etc-node:
     values:
       clientExtension:

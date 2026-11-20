@@ -1,4 +1,5 @@
-clientExtensionsSeparateNamespace: true
+clientExtensionDefaults:
+  separateNamespace: true
 
 clientExtensions:
   liferay-sample-batch:
@@ -7,6 +8,7 @@ clientExtensions:
     enabled: true
   liferay-sample-global-css-1:
     enabled: true
+    separateNamespace: false
     values:
       clientExtension:
         domain: global-css-1-able-nonproduction.runray.xyz

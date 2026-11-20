@@ -1,4 +1,1 @@
-clientExtensions:
-  separateNamespace:
-    enabled: true
 enabled: true

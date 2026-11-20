@@ -1,26 +1,26 @@
 clientExtensions:
   liferay-sample-batch:
-    enabled: true
+    enabled: false
   liferay-sample-etc-cron:
-    enabled: true
+    enabled: false
   liferay-sample-global-css-1:
-    enabled: true
+    enabled: false
     values:
       clientExtension:
         domain: global-css-1-able-nonproduction.runray.xyz
   liferay-sample-custom-element-2:
-    enabled: true
+    enabled: false
     values:
       clientExtension:
         domain: custom-element-2-able-nonproduction.runray.xyz
     version: 1.0.2.8c080d14bb0e
   liferay-sample-etc-node:
-    enabled: true
+    enabled: false
     values:
       clientExtension:
         domain: etc-node-able-nonproduction.runray.xyz
   liferay-sample-etc-spring-boot:
-    enabled: true
+    enabled: false
     values:
       clientExtension:
         domain: etc-spring-boot-able-nonproduction.runray.xyz
@@ -43,7 +43,7 @@ liferay-default:
         into: "osgi/modules/"
     enabled: true
     type: s3
-  replicaCount: 1
+  replicaCount: 0
   resources:
     limits:
       memory: 12Gi
